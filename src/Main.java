@@ -6,7 +6,7 @@ import Model.Product;
 
 public class Main {
     public static void main(String[] args) {
-        Category category1 = new Category(1, "Electronics", "Electronic Devices", 0);
+      /*  Category category1 = new Category(1, "Electronics", "Electronic Devices", 0);
         Category category2 = new Category(2, "Clothing", "Fashion Apparel", 0);
         Category subcategory1_1 = new Category(11, "Smartphones", "Mobile Phones", 1);
         Category subcategory1_2 = new Category(12, "Laptops", "Personal Computers", 1);
@@ -55,21 +55,21 @@ public class Main {
 
         category1.display();
         category2.display();
-        //CategoryDAO.addCategory(category1);
-        //CategoryDAO.addCategory(category2);
-        //CategoryDAO.addCategory(subcategory1_1);
-        //CategoryDAO.addCategory(subcategory1_2);
-        //CategoryDAO.addCategory(subcategory1_3);
-        //CategoryDAO.addCategory(subcategory2_1);
-        //CategoryDAO.addCategory(subcategory2_2);
-        //ProductDAO.addProduct(product1);
-        //ProductDAO.addProduct(product2);
-        //ProductDAO.addProduct(product3);
-        //ProductDAO.addProduct(product4);
-        //ProductDAO.addProduct(product5);
-        //ProductDAO.addProduct(product6);
-        //CategoryDAO.deleteCategory(2);
-        //ProductDAO.deleteProduct(202);
+        CategoryDAO.addCategory(category1);
+        CategoryDAO.addCategory(category2);
+        CategoryDAO.addCategory(subcategory1_1);
+        CategoryDAO.addCategory(subcategory1_2);
+        CategoryDAO.addCategory(subcategory1_3);
+        CategoryDAO.addCategory(subcategory2_1);
+        CategoryDAO.addCategory(subcategory2_2);
+        ProductDAO.addProduct(product1);
+        ProductDAO.addProduct(product2);
+        ProductDAO.addProduct(product3);
+        ProductDAO.addProduct(product4);
+        ProductDAO.addProduct(product5);
+        ProductDAO.addProduct(product6);
+        CategoryDAO.deleteCategory(2);
+        ProductDAO.deleteProduct(202);*/
         new CategoryGUI().setVisible(true);
 
 

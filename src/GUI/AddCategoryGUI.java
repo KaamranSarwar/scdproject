@@ -289,6 +289,7 @@ public class AddCategoryGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify
     private javax.swing.JTree CategoryTree1;
+    //idfieldgit
     private javax.swing.JTextField IdField;
     private javax.swing.JButton addButton;
     private javax.swing.JLabel jLabel1;

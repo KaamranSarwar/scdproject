@@ -1,7 +1,7 @@
 package GUI;
 
 import DAO.UserDao;
-import model.User;
+import Model.User;
 
 import javax.swing.*;
 
