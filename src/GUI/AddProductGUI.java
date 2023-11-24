@@ -304,6 +304,12 @@ public class AddProductGUI extends javax.swing.JFrame {
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+        int cs = this.getExtendedState();
+        ProductGUI a = new ProductGUI();
+        a.setExtendedState(cs);
+        this.dispose();
+        a.setVisible(true);
+
     }
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {
