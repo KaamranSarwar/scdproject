@@ -1,17 +1,51 @@
 package Model;
+import java.util.Date;
 public class Product implements Component {
     private final int Id;
     private String name;
-    private String description;
-    private int stockQuantity;
     private double price;
+    private int QuantityInPack;
+    private int totalPacks;
+    private int totalQuantity;
+    private Date ExpDate;
+
+    private String description;
+
     private int categoryID;
-    public Product(int id, String name, String description, int stockQuantity, double price, int categoryID) {
+
+    public int getQuantityInPack() {
+        return QuantityInPack;
+    }
+
+    public void setQuantityInPack(int quantityInPack) {
+        QuantityInPack = quantityInPack;
+    }
+
+    public int getTotalPacks() {
+        return totalPacks;
+    }
+
+    public void setTotalPacks(int totalPacks) {
+        this.totalPacks = totalPacks;
+    }
+
+    public Date getExpDate() {
+        return ExpDate;
+    }
+
+    public void setExpDate(Date expDate) {
+        ExpDate = expDate;
+    }
+
+    public Product(int id, String name, double price, int quantityInPack, int totalPacks, int totalQuantity, Date expDate, String description, int categoryID) {
         Id = id;
         this.name = name;
-        this.description = description;
-        this.stockQuantity = stockQuantity;
         this.price = price;
+        QuantityInPack = quantityInPack;
+        this.totalPacks = totalPacks;
+        this.totalQuantity = totalQuantity;
+        ExpDate = expDate;
+        this.description = description;
         this.categoryID = categoryID;
     }
 
@@ -31,8 +65,8 @@ public class Product implements Component {
         this.price = price;
     }
 
-    public void setStockQuantity(int stockQuantity) {
-        this.stockQuantity = stockQuantity;
+    public void setTotalQuantity(int totalQuantity) {
+        this.totalQuantity = totalQuantity;
     }
 
     public double getPrice() {
@@ -43,8 +77,8 @@ public class Product implements Component {
         return Id;
     }
 
-    public int getStockQuantity() {
-        return stockQuantity;
+    public int getTotalQuantity() {
+        return totalQuantity;
     }
 
     public String getDescription() {
