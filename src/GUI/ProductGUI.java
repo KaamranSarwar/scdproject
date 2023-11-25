@@ -8,6 +8,7 @@ import Model.Product;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -214,6 +215,40 @@ public class ProductGUI extends javax.swing.JFrame {
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+        int selectedRow = productTable.getSelectedRow();
+        if(selectedRow == -1)
+        {
+            JOptionPane.showMessageDialog(this,"Select product from table to update","Product Not Selected",JOptionPane.INFORMATION_MESSAGE);
+        }
+        else
+        {
+            int id = (int)productTable.getValueAt(selectedRow,0);
+            String name = (String)productTable.getValueAt(selectedRow,1);
+            String des = (String)productTable.getValueAt(selectedRow,2);
+            double price = (double)productTable.getValueAt(selectedRow,3);
+            int tq = (int)productTable.getValueAt(selectedRow,4);
+            int qpp = (int)productTable.getValueAt(selectedRow,5);
+            int tp = (int)productTable.getValueAt(selectedRow,6);
+            String date = (String)productTable.getValueAt(selectedRow,7);
+            String category =  (String)productTable.getValueAt(selectedRow,8);
+            int CategoryId = CategoryDAO.getID(category);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            Date d;
+
+            try {
+                d = simpleDateFormat.parse(date);
+            } catch (ParseException e) {
+                JOptionPane.showMessageDialog(this,"Date getting issue","Date Issue",JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            Product p = new Product(id,name,price,qpp,tp,tq,d,des,CategoryId);
+
+            int cs = this.getExtendedState();
+            UpdateProductGUI a = new UpdateProductGUI(p);
+            a.setExtendedState(cs);
+            this.dispose();
+            a.setVisible(true);
+        }
     }
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {

@@ -42,6 +42,27 @@ public class ProductDAO {
             throw new RuntimeException(e);
         }
     }
+    public static void updateProduct(Product p)
+    {
+        Connection connection = DBConnector.getConnection();
+        String query = "UPDATE product set pname = ?,price = ?,QinP = ?,tP=?,totalQuantity=?,des = ?,cId = ? where id = ?;";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, p.getName());
+            preparedStatement.setDouble(2,p.getPrice());
+            preparedStatement.setInt(3,p.getQuantityInPack());
+            preparedStatement.setInt(4,p.getTotalPacks());
+            preparedStatement.setInt(5,p.getTotalQuantity());
+            preparedStatement.setString(6,p.getDescription());
+            preparedStatement.setInt(7,p.getCategoryID());
+            preparedStatement.setInt(8,p.getId());
+            int count = preparedStatement.executeUpdate();
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
     public static boolean checkID(int cid)
     {
         Connection connection = DBConnector.getConnection();

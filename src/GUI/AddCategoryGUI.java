@@ -265,7 +265,7 @@ public class AddCategoryGUI extends javax.swing.JFrame {
     }
 
 
-    private DefaultTreeModel getCategoryTree() {
+    public static DefaultTreeModel getCategoryTree() {
         List<Category> allCategories = CategoryDAO.getAllCategory();
         DefaultMutableTreeNode root = buildCategoryTree(allCategories);
         return new DefaultTreeModel(root);
