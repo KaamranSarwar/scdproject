@@ -109,6 +109,32 @@ public class ProductDAO {
         }
         return products;
     }
-
+    public static List<Product> getProductsByName(String productName) {
+        List<Product> products = new ArrayList<>();
+        Connection connection = DBConnector.getConnection();
+        String query = "SELECT * FROM product WHERE pname LIKE ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, "%" + productName + "%");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt(1);
+                String name = resultSet.getString(2);
+                double price = resultSet.getDouble(3);
+                int QperP = resultSet.getInt(4);
+                int TotalPacket = resultSet.getInt(5);
+                int total = resultSet.getInt(6);
+                java.util.Date date = resultSet.getDate(7);
+                String des = resultSet.getString(8);
+                int Category = resultSet.getInt(9);
+                Product p = new Product(id, name, price, QperP, TotalPacket, total, date, des, Category);
+                products.add(p);
+            }
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return products;
+    }
 
 }

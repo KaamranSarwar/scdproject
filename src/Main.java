@@ -72,9 +72,9 @@ public class Main {
         ProductDAO.addProduct(product6);
         CategoryDAO.deleteCategory(2);
         ProductDAO.deleteProduct(202);*/
-        //new CategoryGUI().setVisible(true);
-        User u=new User();
-        new addUserUI(u);
+        new CategoryGUI().setVisible(true);
+        /*User u=new User();
+        new addUserUI(u);*/
 
     }
 }
