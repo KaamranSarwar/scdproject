@@ -1,8 +1,10 @@
 import DAO.CategoryDAO;
 import DAO.ProductDAO;
 import GUI.CategoryGUI;
+import GUI.addUserUI;
 import Model.Category;
 import Model.Product;
+import Model.User;
 
 public class Main {
     public static void main(String[] args) {
@@ -70,9 +72,9 @@ public class Main {
         ProductDAO.addProduct(product6);
         CategoryDAO.deleteCategory(2);
         ProductDAO.deleteProduct(202);*/
-        new CategoryGUI().setVisible(true);
-
-
+        //new CategoryGUI().setVisible(true);
+        User u=new User();
+        new addUserUI(u);
 
     }
 }

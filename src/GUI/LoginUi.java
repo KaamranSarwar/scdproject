@@ -4,6 +4,7 @@ import DAO.UserDao;
 import Model.User;
 
 import javax.swing.*;
+import java.util.Objects;
 
 public class LoginUi extends JFrame {
 
@@ -113,23 +114,33 @@ public class LoginUi extends JFrame {
     }
 
     public void login(){
-        if(!userNamefield.getText().isEmpty()&&PasswordField.getPassword().length>0){
+        if(userNamefield.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Enter name!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else if(PasswordField.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Enter Password!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else if(!userNamefield.getText().isEmpty()&&PasswordField.getPassword().length>0){
             String username=userNamefield.getText();
             char[] passw= PasswordField.getPassword();
             String pass=new String(passw);
             User user=new User();
             user.setUsername(username);
             user.setPassword(pass);
-            System.out.println("pass is "+user.getPassword());
+            //System.out.println("pass is "+user.getPassword());
             boolean log=userDao.validateUser(user);
             if(log) {
+                //JOptionPane.showMessageDialog(null, "Login successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                String role=userDao.getUserRole(user);
+                System.out.println(role);
+                if(Objects.equals(role, "manager")){
+                   new addUserUI(user).setVisible(true);
+                }
                 this.dispose();
-                JOptionPane.showMessageDialog(null, "Login successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
-
             }
             else {
             // Show an error message dialog if authentication fails
-            JOptionPane.showMessageDialog(null, "Invalid username or password", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Invalid username or password", "Error", JOptionPane.ERROR_MESSAGE);
         }
         }
 
