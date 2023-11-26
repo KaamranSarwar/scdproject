@@ -48,6 +48,12 @@ public class Product implements Component {
         this.description = description;
         this.categoryID = categoryID;
     }
+    public Product(int id, String name, double price) {
+        Id = id;
+        this.name = name;
+        this.price = price;
+    }
+
 
     public void setCategoryID(int categoryID) {
         this.categoryID = categoryID;
