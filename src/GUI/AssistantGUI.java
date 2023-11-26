@@ -359,8 +359,17 @@ public class AssistantGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this,"Enter Quantity first","Empty Quantity Field",JOptionPane.INFORMATION_MESSAGE);
             return;
         }
-        int quantity = Integer.parseInt(quantityField.getText());
+        int quantity =0;
+        try{
+            quantity = Integer.parseInt(quantityField.getText());
+        }
+        catch(NumberFormatException n)
+        {
+            JOptionPane.showMessageDialog(this,"Too Long Quantity Number","Wrong Input",JOptionPane.INFORMATION_MESSAGE);
+            quantityField.setText("");
+            return;
 
+        }
         if(quantity==0)
         {
             JOptionPane.showMessageDialog(this,"Please Enter Value Greater than 0","Quantity To buy",JOptionPane.INFORMATION_MESSAGE);
