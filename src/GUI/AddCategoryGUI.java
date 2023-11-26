@@ -19,7 +19,6 @@ public class AddCategoryGUI extends javax.swing.JFrame {
     public AddCategoryGUI() {
         initComponents();
         setLocationRelativeTo(null);
-
     }
 
     @SuppressWarnings("unchecked")

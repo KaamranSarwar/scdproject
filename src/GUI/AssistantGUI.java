@@ -385,8 +385,6 @@ public class AssistantGUI extends javax.swing.JFrame {
             int remainingPacks = (TotalQuantity-totalOrderedQuantity)/QinP;
             model.setValueAt(remainingPacks,selectedRow,3);// updating number of packs
             updateLocalProducts(Id,remainingQuantity,remainingPacks);
-
-
         }
         else
         {
@@ -419,12 +417,6 @@ public class AssistantGUI extends javax.swing.JFrame {
         quantityField.setText("");
         productTable.clearSelection();
         JOptionPane.showMessageDialog(this,"Item added to cart","Item Added",JOptionPane.INFORMATION_MESSAGE);
-
-
-
-
-
-
     }
 
     private void quantityFieldActionPerformed(java.awt.event.ActionEvent evt) {

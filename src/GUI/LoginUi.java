@@ -132,9 +132,12 @@ public class LoginUi extends JFrame {
             if(log) {
                 //JOptionPane.showMessageDialog(null, "Login successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 String role=userDao.getUserRole(user);
-                System.out.println(role);
+               // System.out.println(role);
                 if(Objects.equals(role, "manager")){
                    new addUserUI(user).setVisible(true);
+                }
+                else if(Objects.equals(role, "sales assistant")){
+                    new AssistantGUI().setVisible(true);
                 }
                 this.dispose();
             }
