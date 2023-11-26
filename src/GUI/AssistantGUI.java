@@ -1,9 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package GUI;
 import DAO.ProductDAO;
+import Model.Cart;
 import Model.Item;
 import Model.Product;
 import javax.swing.*;
@@ -13,6 +11,7 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 import javax.swing.text.PlainDocument;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,18 +27,20 @@ public class AssistantGUI extends javax.swing.JFrame {
     public AssistantGUI() {
         initComponents();
 
-        items = new ArrayList<>();
+        cart = new Cart();
         products = ProductDAO.getAllProducts();
         setCartLabel();
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         populateProductTable(products);
         setLocationRelativeTo(null);
 
     }
-    public AssistantGUI(List<Product> p,List<Item> i) {
+    public AssistantGUI(List<Product> p,Cart c) {
         initComponents();
-        items = i;
+        cart = c;
         products = p;
         setCartLabel();
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         populateProductTable(products);
         setLocationRelativeTo(null);
 
@@ -90,6 +91,12 @@ public class AssistantGUI extends javax.swing.JFrame {
         cartButton.setMaximumSize(new java.awt.Dimension(85, 23));
         cartButton.setMinimumSize(new java.awt.Dimension(85, 23));
         cartButton.setPreferredSize(new java.awt.Dimension(85, 23));
+        cartButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cartButtonActionPerformed(evt);
+            }
+        });
+
 
         logOutButton.setText("Log Out");
         logOutButton.addActionListener(new java.awt.event.ActionListener() {
@@ -312,7 +319,7 @@ public class AssistantGUI extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        setupQuantityField();
+        setupQuantityField(quantityField);
 
         pack();
     }// </editor-fold>
@@ -345,6 +352,21 @@ public class AssistantGUI extends javax.swing.JFrame {
         populateProductTable(products);
 
     }
+    private void cartButtonActionPerformed(java.awt.event.ActionEvent evt){
+        if(cart.getItems().isEmpty())
+        {
+            ImageIcon icon = new ImageIcon("empty-cart.png");
+            int preferredWidth = 30;
+            int preferredHeight = 30;
+            Image scaledImage = icon.getImage().getScaledInstance(preferredWidth, preferredHeight, Image.SCALE_SMOOTH);
+            ImageIcon scaledIcon = new ImageIcon(scaledImage);
+            JOptionPane.showMessageDialog(this,"No Items in the Cart","Empty Cart",JOptionPane.INFORMATION_MESSAGE,scaledIcon);
+            return;
+        }
+        new CartGUI(products,cart).setVisible(true);
+        this.dispose();
+    }
+
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
@@ -360,19 +382,21 @@ public class AssistantGUI extends javax.swing.JFrame {
             return;
         }
         int quantity =0;
-        try{
+        try
+        {
             quantity = Integer.parseInt(quantityField.getText());
         }
-        catch(NumberFormatException n)
+        catch (NumberFormatException n)
         {
-            JOptionPane.showMessageDialog(this,"Too Long Quantity Number","Wrong Input",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this,"Too much Quantity Entered","Invalid Quantity",JOptionPane.INFORMATION_MESSAGE);
             quantityField.setText("");
             return;
-
         }
+
         if(quantity==0)
         {
             JOptionPane.showMessageDialog(this,"Please Enter Value Greater than 0","Quantity To buy",JOptionPane.INFORMATION_MESSAGE);
+            quantityField.setText("");
             return;
         }
         DefaultTableModel model = (DefaultTableModel) productTable.getModel();
@@ -394,6 +418,8 @@ public class AssistantGUI extends javax.swing.JFrame {
             int remainingPacks = (TotalQuantity-totalOrderedQuantity)/QinP;
             model.setValueAt(remainingPacks,selectedRow,3);// updating number of packs
             updateLocalProducts(Id,remainingQuantity,remainingPacks);
+
+
         }
         else
         {
@@ -405,34 +431,39 @@ public class AssistantGUI extends javax.swing.JFrame {
             totalOrderedQuantity = quantity * QinP;
             int remainingQuantity = TotalQuantity-totalOrderedQuantity;
             int remainingPacks = TotalPacks-quantity;
-            model.setValueAt(remainingPacks,selectedRow,3);
-            model.setValueAt(remainingQuantity,selectedRow,5);
             updateLocalProducts(Id,remainingQuantity,remainingPacks);
         }
         String name = (String) model.getValueAt(selectedRow,1);
         double price = (double) model.getValueAt(selectedRow,6);
         Product p = new Product(Id,name,price);
         Item item = new Item(p,totalOrderedQuantity);
-        if(checkItems(Id))
-        {
-            updateItems(item);
-
-        }
-        else
-        {
-            items.add(item);
-        }
-        setCartLabel();
         quantityField.setText("");
         productTable.clearSelection();
-        JOptionPane.showMessageDialog(this,"Item added to cart","Item Added",JOptionPane.INFORMATION_MESSAGE);
+        populateProductTable(products);
+        searchField.setText("");
+        if(checkItems(Id))
+        {
+            cart.update(item);
+            JOptionPane.showMessageDialog(this,"Quantity added to existing "+item.getProduct().getName()+ " in cart","Item Quantity updated",JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        cart.addItem(item);
+        setCartLabel();
+
+        JOptionPane.showMessageDialog(this,item.getProduct().getName()+" added to cart","Item Added",JOptionPane.INFORMATION_MESSAGE);
+
+
+
+
+
+
     }
 
     private void quantityFieldActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
-    private void setupQuantityField() {//function to allow only integer values user cannot add alphabets or special characters
-        PlainDocument doc = (PlainDocument) quantityField.getDocument();
+    public static void setupQuantityField(JTextField field) {//function to allow only integer values user cannot add alphabets or special characters
+        PlainDocument doc = (PlainDocument) field.getDocument();
         doc.setDocumentFilter(new DocumentFilter() {
             @Override
             public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
@@ -443,7 +474,7 @@ public class AssistantGUI extends javax.swing.JFrame {
         });
     }
     private boolean checkItems(int Id) {
-        for (Item i : items)
+        for (Item i : cart.getItems())
         {
             if(i.getProduct().getId() == Id)
             {
@@ -455,7 +486,8 @@ public class AssistantGUI extends javax.swing.JFrame {
     }
     private void showItems()
     {
-        for(Item i : items)
+        System.out.println("ID = " + cart.getId());
+        for(Item i : cart.getItems())
         {
             Product p = i.getProduct();
             System.out.println("ID : " +p.getId());
@@ -506,15 +538,19 @@ public class AssistantGUI extends javax.swing.JFrame {
         model.setRowCount(0);
 
         for (Product product : products) {
-            Object[] row = {
-                    product.getId(),
-                    product.getName(),
-                    product.getDescription(),
-                    product.getTotalPacks(),
-                    product.getQuantityInPack(),
-                    product.getTotalQuantity(),
-                    product.getPrice()};
-            model.addRow(row);
+            if(product.getTotalQuantity() > 0)
+            {
+                Object[] row = {
+                        product.getId(),
+                        product.getName(),
+                        product.getDescription(),
+                        product.getTotalPacks(),
+                        product.getQuantityInPack(),
+                        product.getTotalQuantity(),
+                        product.getPrice()};
+                model.addRow(row);
+            }
+
         }
         DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer();
         cellRenderer.setHorizontalAlignment(JLabel.LEFT);
@@ -538,7 +574,7 @@ public class AssistantGUI extends javax.swing.JFrame {
 
     private void setCartLabel()
     {
-        int s = items.size();
+        int s = cart.getItems().size();
         if(s == 0)
         {
             cartButton.setText("CART");
@@ -550,22 +586,12 @@ public class AssistantGUI extends javax.swing.JFrame {
         }
     }
 
-    private void updateItems(Item item)
-    {
-        for(Item i : items)
-        {
-            if(i.getProduct().getId() == item.getProduct().getId())
-            {
-                i.setQuantityOrdered(i.getQuantityOrdered()+item.getQuantityOrdered());
-                return;
-            }
-        }
-    }
+
 
 
     // Variables declaration - do not modify
     private List<Product> products;
-    private List<Item> items;
+    private Cart cart;
     private javax.swing.JButton addButton;
     private javax.swing.JButton cartButton;
     private javax.swing.JLabel jLabel1;

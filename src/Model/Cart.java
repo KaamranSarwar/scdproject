@@ -1,10 +1,25 @@
 package Model;
+
+import DAO.OrderDAO;
+
 import java.util.ArrayList;
 
 public class Cart extends ItemContainer{
     public Cart()
     {
+        id = OrderDAO.getLatestID();
         items = new ArrayList<>();
+    }
+    public Item getItem(int id)
+    {
+        for(Item i : items)
+        {
+            if(i.getProduct().getId() == id)
+            {
+                return i;
+            }
+        }
+        return null;
     }
     @Override
     public double getTotal() {
@@ -15,7 +30,7 @@ public class Cart extends ItemContainer{
         }
         return total;
     }
-    public void clearCart()
+    public void clear()
     {
         items.clear();
     }
