@@ -5,6 +5,9 @@
 package GUI;
 
 import DAO.CategoryDAO;
+import DAO.OrderDAO;
+import DAO.OrderItemDAO;
+import DAO.ProductDAO;
 import Model.*;
 
 import javax.swing.*;
@@ -214,7 +217,7 @@ public class CartGUI extends javax.swing.JFrame {
 
         totalPriceLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         totalPriceLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        totalPriceLabel.setText("Total Bill Price : 0.0");
+        totalPriceLabel.setText("Total Bill Price : 0");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -363,7 +366,7 @@ public class CartGUI extends javax.swing.JFrame {
         {
             name = "UnKnown";
         }
-        String price = JOptionPane.showInputDialog(this,"Enter price given by customer");
+        String price = JOptionPane.showInputDialog(this,"Enter amount paid By customer");
         int paidPrice = 0;
         if(price == null)
         {
@@ -371,10 +374,19 @@ public class CartGUI extends javax.swing.JFrame {
         }
         while (!validatePrice(price))
         {
-            price = JOptionPane.showInputDialog(this,"Enter Numbers only for price given by customer.\nOr Customer's price must be greater than or equal to "+(int)cart.getTotal());
+            price = JOptionPane.showInputDialog(this,"Enter Numbers only for amount given by customer.\nOr Customer's amount must be greater than or equal to "+(int)cart.getTotal());
         }
         paidPrice = Integer.parseInt(price);
+        for(Item i : cart.getItems() )
+        {
+            int id = i.getProduct().getId();
+            int tp = getTotalPacks(id);
+            int tq = getTotalQuantity(id);
+            ProductDAO.updateProductQuantity(tp,tq,id);
+        }
         Order order = cart.generateOrder(name);
+        OrderDAO.addOrder(order);
+        OrderItemDAO.addOrderItems(order);
         new billGUI(order,paidPrice).setVisible(true);
         this.dispose();
     }
@@ -414,7 +426,7 @@ public class CartGUI extends javax.swing.JFrame {
     private void setTotalBillLabel()
     {
         double total = cart.getTotal();
-        totalPriceLabel.setText("Total Bill Price : "+ total);
+        totalPriceLabel.setText("Total Bill Price : "+ (int)total);
     }
     private void updateProductQuantity(int quantity ,int id)
     {
@@ -467,5 +479,31 @@ public class CartGUI extends javax.swing.JFrame {
     private javax.swing.JTextField quantityField;
     private javax.swing.JLabel totalPriceLabel;
     private javax.swing.JButton updateButton;
+    private int getTotalQuantity(int id)
+    {
+        for(Product p : products)
+        {
+            if(p.getId() == id)
+            {
+                return p.getTotalQuantity();
+            }
+        }
+        return 0;
+    }
+    private int getTotalPacks(int id)
+    {
+        for(Product p : products)
+        {
+            if(p.getId() == id)
+            {
+                return p.getTotalPacks();
+            }
+        }
+        return 0;
+    }
+
     // End of variables declaration
 }
+
+
+

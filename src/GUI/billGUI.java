@@ -34,10 +34,10 @@ public class billGUI extends javax.swing.JFrame {
         billIdLABEL.setText("Bill # " + order.getId());
         nameLabel.setText("Customer Name : "+ order.getCustomerName());
         dateLabel.setText("Date : " + order.getDateInString());
-        double total = order.getTotal();
+        int total =(int)order.getTotal();
         totalPrice.setText("Total Bill Price = "+ total);
-        customerGivenPrice.setText("Customer's Given Price = "+ CustomerPrice);
-        customerRemainingPrice.setText("Customer's Remaining Price = "+ (CustomerPrice - total));
+        customerGivenPrice.setText("Amount paid by Customer = "+ CustomerPrice);
+        customerRemainingPrice.setText("Customer's Remaining amount = "+ (CustomerPrice - total));
         loadItemsTable();
     }
 

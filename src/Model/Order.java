@@ -73,14 +73,14 @@ public class Order extends ItemContainer {
         document.add(new Paragraph("Customer Name: " + customerName));
         document.add(new Paragraph("\n"));
         addItemsTable(document, items);
-        Paragraph totalParagraph = new Paragraph("Total Price: " + getTotal()+ "rs", FontFactory.getFont(FontFactory.HELVETICA_BOLD));
+        Paragraph totalParagraph = new Paragraph("Total Price: " + getTotal(), FontFactory.getFont(FontFactory.HELVETICA_BOLD));
         totalParagraph.setAlignment(Element.ALIGN_RIGHT);
         document.add(totalParagraph);
-        Paragraph customerGivenPriceLabel = new Paragraph("Customer Given Price: " + customerPrice+ "rs",FontFactory.getFont(FontFactory.HELVETICA_BOLD));
+        Paragraph customerGivenPriceLabel = new Paragraph("Customer Given Price: " + customerPrice,FontFactory.getFont(FontFactory.HELVETICA_BOLD));
         customerGivenPriceLabel.setAlignment(Element.ALIGN_RIGHT);
         document.add(customerGivenPriceLabel);
         double customerRemainingPrice = customerPrice - getTotal();
-        Paragraph customerRemainingPriceLabel = new Paragraph("Customer Remaining Price: " + customerRemainingPrice + "rs",FontFactory.getFont(FontFactory.HELVETICA_BOLD));
+        Paragraph customerRemainingPriceLabel = new Paragraph("Customer Remaining Price: " + customerRemainingPrice,FontFactory.getFont(FontFactory.HELVETICA_BOLD));
         customerRemainingPriceLabel.setAlignment(Element.ALIGN_RIGHT);
         document.add(customerRemainingPriceLabel);
         document.add(new Paragraph("\n"));
