@@ -65,7 +65,7 @@ INSERT INTO Product (id, pname, price, QinP, tP, totalQuantity, expDate, des, cI
 (6, 'Toothpaste', 4.29, 1, 150, 600, '2024-06-30', 'Cavity protection', 9),
 -- Add more products as needed
 -- Eye Care
-(7, 'Eye Drops', 9.99, 1, 80, 200, '2024-12-31', 'For dry and irritated eyes', 10);
+(7, 'Eye Drops', 9.99, 1, 80, 200, '2024-12-31', 'For dry and irritated eyes', 10),
 -- Add more products as needed
 
 
@@ -91,7 +91,7 @@ INSERT INTO Product (id, pname, price, QinP, tP, totalQuantity, expDate, des, cI
 
 -- Eye Care
 (16, 'Contact Lens Solution', 6.99, 1, 100, 300, '2024-10-31', 'For cleaning and storing lenses', 10),
-(17, 'Eye Cream', 8.49, 1, 120, 400, '2024-11-30', 'Reduces dark circles and puffiness', 10);
+(17, 'Eye Cream', 8.49, 1, 120, 400, '2024-11-30', 'Reduces dark circles and puffiness', 10),
 -- Add more products as needed
 -- Medicines
 (18, 'Ibuprofen Tablets', 5.49, 1, 150, 500, '2024-12-31', 'For pain and inflammation', 4),
@@ -115,7 +115,7 @@ INSERT INTO Product (id, pname, price, QinP, tP, totalQuantity, expDate, des, cI
 
 -- Eye Care
 (26, 'Preservative-Free Eye Drops', 9.99, 1, 90, 300, '2024-11-30', 'Relieves dry eyes', 10),
-(27, 'Vision Health Supplements', 11.99, 1, 60, 200, '2023-12-31', 'Supports eye health', 10);
+(27, 'Vision Health Supplements', 11.99, 1, 60, 200, '2023-12-31', 'Supports eye health', 10),
 -- Add more products as needed
 
 
@@ -143,5 +143,13 @@ INSERT INTO Product (id, pname, price, QinP, tP, totalQuantity, expDate, des, cI
 -- Eye Care
 (26, 'Preservative-Free Eye Drops', 9.99, 30, 10, 300, '2024-11-30', 'Relieves dry eyes', 10),
 (27, 'Vision Health Supplements', 11.99, 30, 7, 210, '2023-12-31', 'Supports eye health', 10);
+
 -- Add more products as needed
+
+CREATE TABLE `pos`.`orders` (
+                                `Id` INT NOT NULL AUTO_INCREMENT,
+                                `orderPrice` INT NULL,
+                                `customer` VARCHAR(45) NULL,
+                                `orderDate` TIMESTAMP NULL,
+                                PRIMARY KEY (`Id`));
 
