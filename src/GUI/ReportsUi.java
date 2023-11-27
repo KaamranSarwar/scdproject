@@ -7,14 +7,22 @@ import Model.Category;
 import Model.Product;
 
 import javax.swing.*;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.*;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class ReportsUi extends javax.swing.JFrame {
+
 
     /**
      * Creates new form ReportsUi
@@ -61,19 +69,24 @@ public class ReportsUi extends javax.swing.JFrame {
         Logoutforinventory.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         Logoutforinventory.setLabel("Log Out");
 
-        searchtextfield.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchtextfieldActionPerformed(evt);
-            }
-        });
-
         searchbtn.setBackground(new java.awt.Color(51, 102, 255));
         searchbtn.setFont(new java.awt.Font("Dialog", 1, 13)); // NOI18N
         searchbtn.setForeground(new java.awt.Color(255, 255, 255));
         searchbtn.setLabel("Search");
-        searchbtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchbtnActionPerformed(evt);
+        searchtextfield.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                searchtextfieldActionPerformed(e);
             }
         });
 
@@ -82,54 +95,65 @@ public class ReportsUi extends javax.swing.JFrame {
 
         producttable.setModel(new javax.swing.table.DefaultTableModel(
                 new Object [][] {
-                        {null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null, null}
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null},
+                        {null, null, null, null, null, null, null, null, null}
                 },
                 new String [] {
-                        "Id", "Name", "Description", "Total Packs", "Quantity per pack", "Total Quantity", "Price", "Category Name"
+                        "Id", "Name", "Description", "Total Packs", "Quantity per pack", "Total Quantity", "Price", "Category Name", "Expiry Date"
                 }
         ) {
             boolean[] canEdit = new boolean [] {
-                    false, false, false, false, false, false, false, false
+                    false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+                return canEdit[columnIndex];
             }
         });
+
         jScrollPane1.setViewportView(producttable);
 
         categorytree.setFont(new java.awt.Font("Segoe UI Black", 1, 12)); // NOI18N
         categorytree.setModel(getCategoryTree());
         jScrollPane2.setViewportView(categorytree);
+        categorytree.addTreeSelectionListener(new TreeSelectionListener() {
+            @Override
+            public void valueChanged(TreeSelectionEvent e) {
+                listnerfortree();
+            }
+        });
+        labelforexpireproducts=new JLabel();
+        labelforexpireproducts.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
+        labelforexpireproducts.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelforexpireproducts.setText("jLabel3");
 
         javax.swing.GroupLayout InventorypanelLayout = new javax.swing.GroupLayout(Inventorypanel);
         Inventorypanel.setLayout(InventorypanelLayout);
         InventorypanelLayout.setHorizontalGroup(
                 InventorypanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, InventorypanelLayout.createSequentialGroup()
-                                .addComponent(jScrollPane1)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(InventorypanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(InventorypanelLayout.createSequentialGroup()
-                                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(89, 89, 89))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, InventorypanelLayout.createSequentialGroup()
-                                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addContainerGap())))
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap())
                         .addGroup(InventorypanelLayout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(searchtextfield, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(searchbtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(323, 323, 323))
+                                .addGap(392, 392, 392))
                         .addGroup(InventorypanelLayout.createSequentialGroup()
-                                .addGap(25, 25, 25)
-                                .addComponent(Logoutforinventory, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(InventorypanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(InventorypanelLayout.createSequentialGroup()
+                                                .addGap(25, 25, 25)
+                                                .addComponent(Logoutforinventory, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(InventorypanelLayout.createSequentialGroup()
+                                                .addContainerGap()
+                                                .addComponent(labelforexpireproducts, javax.swing.GroupLayout.PREFERRED_SIZE, 850, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         InventorypanelLayout.setVerticalGroup(
@@ -137,20 +161,21 @@ public class ReportsUi extends javax.swing.JFrame {
                         .addGroup(InventorypanelLayout.createSequentialGroup()
                                 .addGap(16, 16, 16)
                                 .addComponent(Logoutforinventory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(21, 21, 21)
-                                .addGroup(InventorypanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addGroup(InventorypanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                .addComponent(jLabel1)
-                                                .addComponent(searchtextfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(searchbtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(25, 25, 25)
+                                .addGroup(InventorypanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel1)
+                                        .addComponent(searchtextfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel2)
                                 .addGap(2, 2, 2)
                                 .addGroup(InventorypanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 448, Short.MAX_VALUE)
                                         .addGroup(InventorypanelLayout.createSequentialGroup()
                                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addContainerGap())))
+                                                .addGap(0, 0, Short.MAX_VALUE))
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(labelforexpireproducts, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Inventory Reports", Inventorypanel);
@@ -172,7 +197,7 @@ public class ReportsUi extends javax.swing.JFrame {
                         .addGroup(SalespanelLayout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(logoutforsales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(531, Short.MAX_VALUE))
+                                .addContainerGap(581, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Sales Report", Salespanel);
@@ -254,12 +279,104 @@ public class ReportsUi extends javax.swing.JFrame {
         }
     }
 
-    private void searchtextfieldActionPerformed(java.awt.event.ActionEvent evt) {
+    private void searchtextfieldActionPerformed(KeyEvent e) {
         // TODO add your handling code here:
+        TreePath selectedPath = categorytree.getSelectionPath();
+        int parentID = 0;
+        String selectedText=null;
+        if (selectedPath != null) {
+            DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) selectedPath.getLastPathComponent();
+            selectedText= selectedNode.getUserObject().toString();
+            parentID = CategoryDAO.getID(selectedText);
+        }
+        if(selectedText.equals("Categories")&&!searchtextfield.getText().isEmpty()){
+            String name = searchtextfield.getText();
+            List<Product> p=ProductDAO.getProductsByName(name);
+            populateProductTable(p);
+        }
+        else if (!searchtextfield.getText().isEmpty() && selectedPath != null) {
+            String name = searchtextfield.getText();
+            List<Product> productsByCategory = ProductDAO.getProductsByCategoryAndSubcategories(selectedText);
+            List<Product> productsByName = ProductDAO.getProductsByName(name);
+            Set<Integer> categoryIds = new HashSet<>();
+            List<Product> combinedList = new ArrayList<>();
+
+            // Store category IDs from the selected category
+            for (Product product : productsByCategory) {
+                categoryIds.add(product.getCategoryID());
+            }
+
+            // Add products from the search results that match the selected category
+            for (Product product : productsByName) {
+                if (categoryIds.contains(product.getCategoryID())) {
+                    combinedList.add(product);
+                }
+            }
+
+            populateProductTable(combinedList);
+        } else if (!searchtextfield.getText().isEmpty()) {
+            String name = searchtextfield.getText();
+            List<Product> p;
+
+            if (selectedText.equals("Categories")) {
+                p = ProductDAO.getProductsByName(name);
+            } else {
+                p = ProductDAO.getProductsByCategoryAndSubcategories(selectedText);
+            }
+
+            populateProductTable(p);
+        } else if (selectedPath != null) {
+            List<Product> p = ProductDAO.getProductsByCategoryAndSubcategories(selectedText);
+            populateProductTable(p);
+        }
+    }
+    private void listnerfortree(){
+        DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) categorytree.getLastSelectedPathComponent();
+
+        if (selectedNode != null) {
+            Object selectedObject = selectedNode.getUserObject();
+            // Assuming your category nodes have some identifier for categories
+                int categoryId =CategoryDAO.getID((String) selectedObject);
+                List<Product> products = ProductDAO.getProductsByCategoryAndSubcategories(selectedObject.toString());
+                populateProductTable(products);
+        }
+        if(selectedNode.getUserObject().equals("Categories")){
+            List<Product> products1=ProductDAO.getAllProducts();
+            populateProductTable(products1);
+        }
     }
     public void populateProductTable(List<Product> products) {
         DefaultTableModel model = (DefaultTableModel) producttable.getModel();
         model.setRowCount(0);
+
+        DefaultTableCellRenderer defaultRenderer = new DefaultTableCellRenderer();
+        defaultRenderer.setHorizontalAlignment(JLabel.LEFT);
+
+        producttable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+                                                           boolean hasFocus, int row, int column) {
+                Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+                // Check if the expiry date is within 15 days
+                Object expDateValue = table.getValueAt(row, 8); // Assuming column index 8 is for the expiry date
+                if (expDateValue instanceof Date) {
+                    Date expDate = (Date) expDateValue;
+                    long millisUntilExpiry = expDate.getTime() - new Date().getTime();
+                    long daysUntilExpiry = TimeUnit.DAYS.convert(millisUntilExpiry, TimeUnit.MILLISECONDS);
+
+                    if (daysUntilExpiry <= 15 && daysUntilExpiry >= 0) {
+                        c.setBackground(Color.RED);
+                        c.setForeground(Color.WHITE);
+                    } else {
+                        // Set default background and foreground colors for other rows
+                        c.setBackground(table.getBackground());
+                        c.setForeground(table.getForeground());
+                    }
+                }
+                return c;
+            }
+        });
 
         for (Product product : products) {
             Object[] row = {
@@ -270,16 +387,15 @@ public class ReportsUi extends javax.swing.JFrame {
                     product.getQuantityInPack(),
                     product.getTotalQuantity(),
                     product.getPrice(),
-                    CategoryDAO.getName(product.getCategoryID())
+                    CategoryDAO.getName(product.getCategoryID()),
+                    product.getExpDate()
             };
+
             model.addRow(row);
         }
-        DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer();
-        cellRenderer.setHorizontalAlignment(JLabel.LEFT);
-        for(int i = 0; i < producttable.getColumnCount();i++)
-        {
-            producttable.getColumnModel().getColumn(i).setCellRenderer(cellRenderer);
-        }
+
+        producttable.getColumnModel().getColumn(8).setCellRenderer(defaultRenderer); // Set default renderer for the expiry date column
+        countRedRows(producttable);
     }
     public static DefaultTreeModel getCategoryTree() {
         List<Category> allCategories = CategoryDAO.getAllCategory();
@@ -302,6 +418,23 @@ public class ReportsUi extends javax.swing.JFrame {
         }
         return root;
     }
+    public void countRedRows(JTable table) {
+        int redRowCount = 0;
+        for (int i = 0; i < table.getRowCount(); i++) {
+            Object expDateValue = table.getValueAt(i, 8); // Assuming column index 8 is for the expiry date
+            if (expDateValue instanceof Date) {
+                Date expDate = (Date) expDateValue;
+                long millisUntilExpiry = expDate.getTime() - new Date().getTime();
+                long daysUntilExpiry = TimeUnit.DAYS.convert(millisUntilExpiry, TimeUnit.MILLISECONDS);
+
+                if (daysUntilExpiry <= 15 && daysUntilExpiry >= 0) {
+                    redRowCount++;
+                }
+            }
+        }
+        labelforexpireproducts.setText("The number of products \n"+" near to expiry are: "+redRowCount);
+    }
+
 
     /**
      * @param args the command line arguments
@@ -353,6 +486,8 @@ public class ReportsUi extends javax.swing.JFrame {
     private javax.swing.JTable producttable;
     private java.awt.Button searchbtn;
     private javax.swing.JTextField searchtextfield;
+    int countOfExpiredProducts;
+    private javax.swing.JLabel labelforexpireproducts;
     // End of variables declaration
 }
 
