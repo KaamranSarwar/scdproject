@@ -348,8 +348,7 @@ public class AssistantGUI extends javax.swing.JFrame {
     private void searchFieldKeyReleased(java.awt.event.KeyEvent evt) {
         // TODO add your handling code here:
         String searchQuery = searchField.getText().trim();
-        List<Product> products = ProductDAO.getProductsByName(searchQuery);
-        populateProductTable(products);
+        populateProductTable(getProductsByName(searchQuery));
 
     }
     private void cartButtonActionPerformed(java.awt.event.ActionEvent evt){
@@ -610,5 +609,25 @@ public class AssistantGUI extends javax.swing.JFrame {
     private javax.swing.JRadioButton quantityRbutton;
     private javax.swing.JLabel quantiyLabel4;
     private javax.swing.JTextField searchField;
+    private List<Product> getProductsByName(String Name)
+    {
+        if(Name.isEmpty())
+        {
+            return products;
+        }
+        String searchedName = Name.toLowerCase();
+        List<Product> newProducts = new ArrayList<>();
+        for(Product p : products)
+        {
+            String product = p.getName().toLowerCase();
+
+            if(product.contains(searchedName))
+            {
+                newProducts.add(p);
+            }
+
+        }
+        return newProducts;
+    }
     // End of variables declaration
 }
