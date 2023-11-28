@@ -11,6 +11,7 @@ public class LoginUi extends JFrame {
     UserDao userDao=new UserDao();
     public LoginUi() {
         initComponents();
+        setLocationRelativeTo(null);
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">

@@ -117,6 +117,39 @@ public class CategoryDAO{
         }
         return name;
     }
+    public static List<Integer> getAllChilds( int id)
+    {
+        {
+            List<Integer> subcategoryIds = new ArrayList<>();
+                // Establish the database connection
+            Connection connection = DBConnector.getConnection();
+            String sql = "WITH RECURSIVE Subcategories AS ("
+                            + "  SELECT id, cname, des, parentId"
+                            + "  FROM category"
+                            + "  WHERE id = ?"
+                            + "  UNION ALL"
+                            + "  SELECT c.id, c.cname, c.des, c.parentId"
+                            + "  FROM category c"
+                            + "  JOIN Subcategories s ON c.parentId = s.id"
+                            + ")"
+                            + "SELECT id FROM Subcategories WHERE id != ?";
+            try  {
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setInt(1, id);
+                preparedStatement.setInt(2, id);
+                ResultSet resultSet = preparedStatement.executeQuery();
+                while (resultSet.next()) {
+                    int subcategoryId = resultSet.getInt("id");
+                    subcategoryIds.add(subcategoryId);
+                 }
+            } catch (  SQLException e) {
+                e.printStackTrace();
+            }
+
+            return subcategoryIds;
+        }
+    }
+
     public static int getID(String n)
     {
         Connection connection = DBConnector.getConnection();
