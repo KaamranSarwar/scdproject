@@ -2,8 +2,10 @@ package GUI;
 
 
 import DAO.CategoryDAO;
+import DAO.OrderDAO;
 import DAO.ProductDAO;
 import Model.Category;
+import Model.Order;
 import Model.Product;
 
 import javax.swing.*;
@@ -15,6 +17,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.*;
@@ -51,15 +54,27 @@ public class ReportsUi extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         Logoutforinventory = new java.awt.Button();
         searchtextfield = new javax.swing.JTextField();
-        searchbtn = new java.awt.Button();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         producttable = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         categorytree = new javax.swing.JTree();
         Salespanel = new javax.swing.JPanel();
-        logoutforsales = new java.awt.Button();
-
+        Backbtn = new java.awt.Button();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        Dailyradiobtn = new javax.swing.JRadioButton();
+        weeklyradiobtn = new javax.swing.JRadioButton();
+        monthlyradiobtn = new javax.swing.JRadioButton();
+        previousdate = new com.toedter.calendar.JDateChooser();
+        nextdate = new com.toedter.calendar.JDateChooser();
+        generatereportbtn = new java.awt.Button();
+        generatepdfbtn = new java.awt.Button();
+        profitlabel = new javax.swing.JLabel();
+        buttonGroup=new ButtonGroup();
+        buttonGroup.add(Dailyradiobtn);
+        buttonGroup.add(weeklyradiobtn);
+        buttonGroup.add(monthlyradiobtn);
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
@@ -68,11 +83,6 @@ public class ReportsUi extends javax.swing.JFrame {
 
         Logoutforinventory.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         Logoutforinventory.setLabel("Log Out");
-
-        searchbtn.setBackground(new java.awt.Color(51, 102, 255));
-        searchbtn.setFont(new java.awt.Font("Dialog", 1, 13)); // NOI18N
-        searchbtn.setForeground(new java.awt.Color(255, 255, 255));
-        searchbtn.setLabel("Search");
         searchtextfield.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -134,7 +144,7 @@ public class ReportsUi extends javax.swing.JFrame {
         InventorypanelLayout.setHorizontalGroup(
                 InventorypanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, InventorypanelLayout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 661, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(InventorypanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -144,7 +154,7 @@ public class ReportsUi extends javax.swing.JFrame {
                                 .addContainerGap()
                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(searchtextfield, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                .addComponent(searchtextfield, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
                                 .addGap(392, 392, 392))
                         .addGroup(InventorypanelLayout.createSequentialGroup()
                                 .addGroup(InventorypanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,25 +190,128 @@ public class ReportsUi extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Inventory Reports", Inventorypanel);
 
-        logoutforsales.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        logoutforsales.setLabel("Log Out");
+        Backbtn.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        Backbtn.setLabel("Back");
+        Backbtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BackbtnActionPerformed(evt);
+            }
+        });
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+                new Object [][] {
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null},
+                        {null, null, null, null}
+                },
+                new String [] {
+                        "Id", "Price", "Customer", "Date"
+                }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                    false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(jTable1);
+
+        Dailyradiobtn.setText("Daily");
+        Dailyradiobtn.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Dailyradiobtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DailyradiobtnActionPerformed(evt);
+            }
+        });
+
+        weeklyradiobtn.setText("Weekly");
+
+        monthlyradiobtn.setText("Monthly");
+        monthlyradiobtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                monthlyradiobtnActionPerformed(evt);
+            }
+        });
+
+        generatereportbtn.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        generatereportbtn.setForeground(new java.awt.Color(51, 153, 0));
+        generatereportbtn.setLabel("Generate Report");
+
+        generatepdfbtn.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        generatepdfbtn.setLabel("Generate Pdf");
+        generatepdfbtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                generatepdfbtnActionPerformed(evt);
+            }
+        });
+
+        profitlabel.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
+        profitlabel.setText("Profit label");
 
         javax.swing.GroupLayout SalespanelLayout = new javax.swing.GroupLayout(Salespanel);
         Salespanel.setLayout(SalespanelLayout);
         SalespanelLayout.setHorizontalGroup(
                 SalespanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(SalespanelLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(logoutforsales, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(803, Short.MAX_VALUE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SalespanelLayout.createSequentialGroup()
+                                .addGroup(SalespanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(SalespanelLayout.createSequentialGroup()
+                                                .addGap(117, 117, 117)
+                                                .addComponent(Dailyradiobtn, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(weeklyradiobtn, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(monthlyradiobtn, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(34, 34, 34)
+                                                .addComponent(previousdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addGap(29, 29, 29)
+                                                .addComponent(nextdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addGap(54, 54, 54)
+                                                .addComponent(generatereportbtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, SalespanelLayout.createSequentialGroup()
+                                                .addContainerGap()
+                                                .addGroup(SalespanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                        .addComponent(profitlabel, javax.swing.GroupLayout.PREFERRED_SIZE, 844, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(Backbtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING)))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, SalespanelLayout.createSequentialGroup()
+                                                .addGap(219, 219, 219)
+                                                .addComponent(generatepdfbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(83, 83, 83))
         );
+
+        SalespanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {Dailyradiobtn, monthlyradiobtn, weeklyradiobtn});
+
         SalespanelLayout.setVerticalGroup(
                 SalespanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(SalespanelLayout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(logoutforsales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(581, Short.MAX_VALUE))
+                                .addGroup(SalespanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(SalespanelLayout.createSequentialGroup()
+                                                .addComponent(Backbtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(31, 31, 31)
+                                                .addGroup(SalespanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addGroup(SalespanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                                .addComponent(Dailyradiobtn, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addComponent(weeklyradiobtn)
+                                                                .addComponent(monthlyradiobtn))
+                                                        .addComponent(nextdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(previousdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGroup(SalespanelLayout.createSequentialGroup()
+                                                .addComponent(generatereportbtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(9, 9, 9)))
+                                .addGap(31, 31, 31)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(profitlabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(generatepdfbtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(19, 19, 19))
         );
+
+        SalespanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {Dailyradiobtn, monthlyradiobtn, weeklyradiobtn});
 
         jTabbedPane1.addTab("Sales Report", Salespanel);
 
@@ -226,6 +339,37 @@ public class ReportsUi extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>
+
+    private void DailyradiobtnActionPerformed(ActionEvent evt) {
+        previousdate.setEnabled(false);
+        List<Order> orders = OrderDAO.getOrdersWithItems();
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Order ID");
+        model.addColumn("Order Price");
+        model.addColumn("Customer Name");
+        model.addColumn("Order Date");
+        for (Order order : orders) {
+            Object[] rowData = {
+                    order.getId(),
+                    order.getTotal(),
+                    order.getCustomerName(),
+                    order.getTimestamp()
+            };
+            model.addRow(rowData);
+        }
+
+        jTable1.setModel(model);
+    }
+
+
+    private void monthlyradiobtnActionPerformed(ActionEvent evt) {
+    }
+
+    private void generatepdfbtnActionPerformed(ActionEvent evt) {
+    }
+
+    private void BackbtnActionPerformed(ActionEvent evt) {
+    }
 
     private void searchbtnActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
@@ -472,22 +616,31 @@ public class ReportsUi extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify
+    private java.awt.Button Backbtn;
+    private javax.swing.JRadioButton Dailyradiobtn;
     private javax.swing.JPanel Inventorypanel;
     private java.awt.Button Logoutforinventory;
     private javax.swing.JPanel Salespanel;
     private javax.swing.JTree categorytree;
+    private java.awt.Button generatepdfbtn;
+    private java.awt.Button generatereportbtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private java.awt.Button logoutforsales;
-    private javax.swing.JTable producttable;
-    private java.awt.Button searchbtn;
-    private javax.swing.JTextField searchtextfield;
-    int countOfExpiredProducts;
+    private javax.swing.JTable jTable1;
     private javax.swing.JLabel labelforexpireproducts;
+    private javax.swing.JRadioButton monthlyradiobtn;
+    private com.toedter.calendar.JDateChooser nextdate;
+    private com.toedter.calendar.JDateChooser previousdate;
+    private javax.swing.JTable producttable;
+    private javax.swing.JLabel profitlabel;
+    private javax.swing.JTextField searchtextfield;
+    private javax.swing.JRadioButton weeklyradiobtn;
+    private ButtonGroup buttonGroup;
     // End of variables declaration
 }
 

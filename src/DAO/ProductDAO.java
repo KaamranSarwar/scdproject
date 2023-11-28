@@ -63,6 +63,22 @@ public class ProductDAO {
         }
 
     }
+    public static void updateProductQuantity(int totalPacks,int total,int pid)
+    {
+        Connection connection = DBConnector.getConnection();
+        String query = "UPDATE product set tP=?,totalQuantity=? where id = ?;";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, totalPacks);
+            preparedStatement.setInt(2,total);
+            preparedStatement.setInt(3,pid);
+            int count = preparedStatement.executeUpdate();
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
     public static boolean checkID(int cid)
     {
         Connection connection = DBConnector.getConnection();

@@ -5,14 +5,15 @@
 package GUI;
 
 import DAO.CategoryDAO;
-import Model.Cart;
-import Model.Category;
-import Model.Item;
-import Model.Product;
+import DAO.OrderDAO;
+import DAO.OrderItemDAO;
+import DAO.ProductDAO;
+import Model.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.util.List;
 /**
  *
@@ -216,7 +217,7 @@ public class CartGUI extends javax.swing.JFrame {
 
         totalPriceLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         totalPriceLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        totalPriceLabel.setText("Total Bill Price : 0.0");
+        totalPriceLabel.setText("Total Bill Price : 0");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -346,6 +347,48 @@ public class CartGUI extends javax.swing.JFrame {
 
     private void confirmOrderButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+        if(cart.getItems().isEmpty())
+        {
+            ImageIcon icon = new ImageIcon("empty-cart.png");
+            int preferredWidth = 30;
+            int preferredHeight = 30;
+            Image scaledImage = icon.getImage().getScaledInstance(preferredWidth, preferredHeight, Image.SCALE_SMOOTH);
+            ImageIcon scaledIcon = new ImageIcon(scaledImage);
+            JOptionPane.showMessageDialog(this,"No Items in the Cart","Empty Cart",JOptionPane.INFORMATION_MESSAGE,scaledIcon);
+            return;
+        }
+        String name = JOptionPane.showInputDialog(this,"Enter Customer Name");
+        if(name == null)
+        {
+            return;
+        }
+        if(name.isEmpty())
+        {
+            name = "UnKnown";
+        }
+        String price = JOptionPane.showInputDialog(this,"Enter amount paid By customer");
+        int paidPrice = 0;
+        if(price == null)
+        {
+            return;
+        }
+        while (!validatePrice(price))
+        {
+            price = JOptionPane.showInputDialog(this,"Enter Numbers only for amount given by customer.\nOr Customer's amount must be greater than or equal to "+(int)cart.getTotal());
+        }
+        paidPrice = Integer.parseInt(price);
+        for(Item i : cart.getItems() )
+        {
+            int id = i.getProduct().getId();
+            int tp = getTotalPacks(id);
+            int tq = getTotalQuantity(id);
+            ProductDAO.updateProductQuantity(tp,tq,id);
+        }
+        Order order = cart.generateOrder(name);
+        OrderDAO.addOrder(order);
+        OrderItemDAO.addOrderItems(order);
+        new billGUI(order,paidPrice).setVisible(true);
+        this.dispose();
     }
     public void loadItemsTable() {
         DefaultTableModel model = (DefaultTableModel) itemsTable.getModel();
@@ -366,10 +409,24 @@ public class CartGUI extends javax.swing.JFrame {
             itemsTable.getColumnModel().getColumn(i).setCellRenderer(cellRenderer);
         }
     }
+    private boolean validatePrice(String p)
+    {
+        int price = 0;
+        try {
+            price = Integer.parseInt(p);
+        }
+        catch (NumberFormatException n)
+        {
+            return false;
+        }
+
+        return price >= (int) cart.getTotal();
+
+    }
     private void setTotalBillLabel()
     {
         double total = cart.getTotal();
-        totalPriceLabel.setText("Total Bill Price : "+ total);
+        totalPriceLabel.setText("Total Bill Price : "+ (int)total);
     }
     private void updateProductQuantity(int quantity ,int id)
     {
@@ -422,5 +479,31 @@ public class CartGUI extends javax.swing.JFrame {
     private javax.swing.JTextField quantityField;
     private javax.swing.JLabel totalPriceLabel;
     private javax.swing.JButton updateButton;
+    private int getTotalQuantity(int id)
+    {
+        for(Product p : products)
+        {
+            if(p.getId() == id)
+            {
+                return p.getTotalQuantity();
+            }
+        }
+        return 0;
+    }
+    private int getTotalPacks(int id)
+    {
+        for(Product p : products)
+        {
+            if(p.getId() == id)
+            {
+                return p.getTotalPacks();
+            }
+        }
+        return 0;
+    }
+
     // End of variables declaration
 }
+
+
+

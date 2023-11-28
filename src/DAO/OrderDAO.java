@@ -1,8 +1,11 @@
 package DAO;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import Model.Item;
+import Model.Order;
+import Model.Product;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OrderDAO {
     public static int getLatestID()
@@ -23,5 +26,70 @@ public class OrderDAO {
         }
         return ID+1;
     }
+    public static void addOrder(Order o )
+    {
+        Connection connection = DBConnector.getConnection();
+        String Query = "Insert Into orders(orderPrice,customer,orderDate) values(?,?,?);";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(Query);
+            preparedStatement.setInt(1,(int)o.getTotal());
+            preparedStatement.setString(2, o.getCustomerName());
+            preparedStatement.setTimestamp(3,o.getTimestamp());
+            preparedStatement.executeUpdate();
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+    public static List<Order> getOrdersWithItems() {
+        List<Order> orders = new ArrayList<>();
+        try (Connection connection = DBConnector.getConnection()) {
+            String orderQuery = "SELECT Id, orderPrice, customer, orderDate FROM orders";
+            String itemQuery = "SELECT id, Name, price, totalQuantity, totalPrice FROM orderitem WHERE orderId = ?";
+
+            try (PreparedStatement orderStatement = connection.prepareStatement(orderQuery);
+                 ResultSet orderResultSet = orderStatement.executeQuery()) {
+
+                while (orderResultSet.next()) {
+                    int orderId = orderResultSet.getInt("Id");
+                    int orderPrice = orderResultSet.getInt("orderPrice");
+                    String customerName = orderResultSet.getString("customer");
+                    Timestamp orderDate = orderResultSet.getTimestamp("orderDate");
+
+                    try (PreparedStatement itemStatement = connection.prepareStatement(itemQuery)) {
+                        itemStatement.setInt(1, orderId);
+                        try (ResultSet itemResultSet = itemStatement.executeQuery()) {
+                            List<Item> items = new ArrayList<>();
+                            while (itemResultSet.next()) {
+                                int itemId = itemResultSet.getInt("id");
+                                String itemName = itemResultSet.getString("Name");
+                                double itemPrice = itemResultSet.getDouble("price");
+                                int totalQuantity = itemResultSet.getInt("totalQuantity");
+                                double totalPrice = itemResultSet.getDouble("totalPrice");
+
+                                Product product = new Product(itemId, itemName, itemPrice);
+                                Item item = new Item(product, totalQuantity);
+                                items.add(item);
+                            }
+
+                            Order order = new Order(items, customerName, orderId);
+                            order.setTotal(orderPrice);
+                            order.setCustomerName(customerName);
+                            order.setTimestamp(orderDate);
+                            orders.add(order);
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return orders;
+    }
+
+
+
+
 
 }

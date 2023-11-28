@@ -6,138 +6,167 @@ CREATE TABLE Category (
                           parentId INT,
                           FOREIGN KEY (parentId) REFERENCES Category(id) on update cascade on delete cascade
 );
-CREATE TABLE `pos`.`product` (
-                                 `id` INT NOT NULL,
-                                 `pname` VARCHAR(45) NULL,
-                                 `price` DOUBLE NULL,
-                                 `QinP` INT NULL,
-                                 `tP` INT NULL,
-                                 `totalQuantity` INT NULL,
-                                 `expDate` DATE NULL,
-                                 `des` VARCHAR(1000) NULL,
-                                 `cId` INT NULL,
-                                 PRIMARY KEY (`id`),
-                                 INDEX `category_idx` (`cId` ASC) VISIBLE,
-                                 CONSTRAINT `category`
-                                     FOREIGN KEY (`cId`)
-                                         REFERENCES `pos`.`category` (`id`)
-                                         ON DELETE CASCADE
-                                         ON UPDATE CASCADE
-                             );
+CREATE TABLE pos.product (
+                             id INT NOT NULL,
+                             pname VARCHAR(45) NULL,
+                             price DOUBLE NULL,
+                             QinP INT NULL,
+                             tP INT NULL,
+                             totalQuantity INT NULL,
+                             expDate DATE NULL,
+                             des VARCHAR(1000) NULL,
+                             cId INT NULL,
+                             PRIMARY KEY (id),
+                             INDEX category_idx (cId ASC) VISIBLE,
+                             CONSTRAINT category
+                                 FOREIGN KEY (cId)
+                                     REFERENCES pos.category (id)
+                                     ON DELETE CASCADE
+                                     ON UPDATE CASCADE
+);
 
 
 -- Inserting parent categories
--- Inserting Pharmacy Category
+INSERT INTO Category (id, cname, des, parentId) VALUES
 
--- Inserting Subcategories under Pharmacy (if any)
--- Add more subcategories as needed
--- Inserting More Categories related to Pharmacy
-INSERT INTO Category (id, cname, des, parentId)
-VALUES (3, 'Personal Care', 'Personal Care Products', NULL);
+                                                    (2, 'Medicines', 'Medicines category', NULL),
+                                                    (3, 'First Aid', 'First aid supplies', NULL),
+-- Add more categories as needed
+                                                    (4, 'Pain Relief', 'Medications for pain relief', 2),
+                                                    (5, 'Skin Care', 'Products for skincare', 2),
+-- Add more categories as needed
+                                                    (6, 'Bandages', 'Bandages and wound care', 3),
+-- Add more categories as needed
+                                                    (7, 'Cold & Flu', 'Medications for cold and flu', 2),
+-- Add more categories as needed
+                                                    (8, 'Personal Hygiene', 'Products for personal hygiene', NULL),
+-- Add more categories as needed
+                                                    (9, 'Dental Care', 'Products for dental care', 8),
+                                                    (10, 'Eye Care', 'Products for eye care', 8);
+-- Add more categories as needed
 
-INSERT INTO Category (id, cname, des, parentId)
-VALUES (4, 'Health Supplements', 'Supplements Category', NULL);
 
--- Inserting Subcategories under 'Personal Care'
-INSERT INTO Category (id, cname, des, parentId)
-VALUES (5, 'Skincare', 'Skincare Products', 3);
+-- Inserting pharmacy-related products
+INSERT INTO Product (id, pname, price, QinP, tP, totalQuantity, expDate, des, cId) VALUES
+-- Medicines
+(1, 'Aspirin', 5.99, 1, 100, 500, '2024-10-31', 'Pain reliever', 4),
+(2, 'Ibuprofen', 6.49, 1, 150, 400, '2024-09-30', 'Pain reliever and fever reducer', 4),
+-- Add more products as needed
+-- First Aid
+(3, 'Adhesive Bandages', 3.99, 1, 200, 800, '2025-12-31', 'Assorted sizes', 6),
+-- Add more products as needed
+-- Cold & Flu
+(4, 'Cold Syrup', 8.99, 1, 100, 300, '2023-11-30', 'Relief from cold symptoms', 7),
+-- Add more products as needed
+-- Skin Care
+(5, 'Moisturizing Lotion', 7.49, 1, 120, 500, '2024-08-31', 'For dry skin', 5),
+-- Add more products as needed
+-- Dental Care
+(6, 'Toothpaste', 4.29, 1, 150, 600, '2024-06-30', 'Cavity protection', 9),
+-- Add more products as needed
+-- Eye Care
+(7, 'Eye Drops', 9.99, 1, 80, 200, '2024-12-31', 'For dry and irritated eyes', 10),
+-- Add more products as needed
 
-INSERT INTO Category (id, cname, des, parentId)
-VALUES (6, 'Hair Care', 'Hair Care Products', 3);
 
--- Inserting Subcategories under 'Health Supplements'
-INSERT INTO Category (id, cname, des, parentId)
-VALUES (7, 'Vitamins', 'Vitamin Supplements', 4);
+-- Medicines
+(8, 'Paracetamol', 4.99, 1, 200, 600, '2024-11-30', 'For pain and fever relief', 4),
+(9, 'Cough Syrup', 6.79, 1, 120, 400, '2023-12-31', 'Relieves cough symptoms', 7),
+-- Add more products as needed
 
-INSERT INTO Category (id, cname, des, parentId)
-VALUES (8, 'Proteins', 'Protein Supplements', 4);
+-- First Aid
+(10, 'Antiseptic Wipes', 3.29, 1, 180, 700, '2025-10-31', 'Cleansing wipes for wounds', 6),
+(11, 'Gauze Rolls', 4.49, 1, 100, 300, '2026-08-31', 'For wound dressing', 6),
+-- Add more products as needed
+
+-- Skin Care
+(12, 'Sunscreen SPF 50', 9.49, 1, 90, 200, '2024-07-31', 'High protection from UV rays', 5),
+(13, 'Acne Treatment Cream', 7.99, 1, 150, 500, '2024-09-30', 'For acne-prone skin', 5),
+-- Add more products as needed
+
+-- Dental Care
+(14, 'Mouthwash', 5.29, 1, 180, 700, '2024-05-31', 'For fresh breath', 9),
+(15, 'Dental Floss', 2.99, 1, 250, 800, '2025-03-31', 'Removes plaque between teeth', 9),
+-- Add more products as needed
+
+-- Eye Care
+(16, 'Contact Lens Solution', 6.99, 1, 100, 300, '2024-10-31', 'For cleaning and storing lenses', 10),
+(17, 'Eye Cream', 8.49, 1, 120, 400, '2024-11-30', 'Reduces dark circles and puffiness', 10),
+-- Add more products as needed
+-- Medicines
+(18, 'Ibuprofen Tablets', 5.49, 1, 150, 500, '2024-12-31', 'For pain and inflammation', 4),
+(19, 'Allergy Relief Tablets', 6.99, 1, 100, 300, '2023-11-30', 'Relieves allergy symptoms', 4),
+-- Add more products as needed
+
+-- First Aid
+(20, 'Adhesive Bandages', 2.99, 1, 200, 600, '2025-09-30', 'For minor cuts and wounds', 6),
+(21, 'Burn Relief Gel', 7.49, 1, 80, 250, '2023-12-31', 'Soothes minor burns', 6),
+-- Add more products as needed
+
+-- Skin Care
+(22, 'Moisturizing Lotion', 8.99, 1, 120, 400, '2024-08-31', 'Hydrates dry skin', 5),
+(23, 'Anti-Wrinkle Serum', 12.49, 1, 60, 200, '2024-06-30', 'Reduces fine lines', 5),
+-- Add more products as needed
+
+-- Dental Care
+(24, 'Toothpaste (Fluoride)', 3.79, 1, 180, 700, '2025-04-30', 'Prevents cavities', 9),
+(25, 'Toothbrush (Soft Bristles)', 2.49, 1, 250, 800, '2025-02-28', 'Gentle on gums', 9),
+-- Add more products as needed
+
+-- Eye Care
+(26, 'Preservative-Free Eye Drops', 9.99, 1, 90, 300, '2024-11-30', 'Relieves dry eyes', 10),
+(27, 'Vision Health Supplements', 11.99, 1, 60, 200, '2023-12-31', 'Supports eye health', 10),
+-- Add more products as needed
+
+
+
+-- Medicines
+(18, 'Ibuprofen Tablets', 5.49, 50, 10, 500, '2024-12-31', 'For pain and inflammation', 4),
+(19, 'Allergy Relief Tablets', 6.99, 30, 10, 300, '2023-11-30', 'Relieves allergy symptoms', 4),
+-- Add more products as needed
+
+-- First Aid
+(20, 'Adhesive Bandages', 2.99, 100, 6, 600, '2025-09-30', 'For minor cuts and wounds', 6),
+(21, 'Burn Relief Gel', 7.49, 20, 12, 240, '2023-12-31', 'Soothes minor burns', 6),
+-- Add more products as needed
+
+-- Skin Care
+(22, 'Moisturizing Lotion', 8.99, 60, 7, 420, '2024-08-31', 'Hydrates dry skin', 5),
+(23, 'Anti-Wrinkle Serum', 12.49, 30, 7, 210, '2024-06-30', 'Reduces fine lines', 5),
+-- Add more products as needed
+
+-- Dental Care
+(24, 'Toothpaste (Fluoride)', 3.79, 60, 12, 720, '2025-04-30', 'Prevents cavities', 9),
+(25, 'Toothbrush (Soft Bristles)', 2.49, 50, 16, 800, '2025-02-28', 'Gentle on gums', 9),
+-- Add more products as needed
+
+-- Eye Care
+(26, 'Preservative-Free Eye Drops', 9.99, 30, 10, 300, '2024-11-30', 'Relieves dry eyes', 10),
+(27, 'Vision Health Supplements', 11.99, 30, 7, 210, '2023-12-31', 'Supports eye health', 10);
 
 -- Add more products as needed
 
--- Inserting Products related to 'Personal Care'
-INSERT INTO Product (id, pname, price, QinP, tP, totalQuantity, expDate, des, cId)
-VALUES
-    (101, 'Face Wash', 5.99, 2, 5, 10, '2023-12-10', 'Gentle Face Wash', 5),
-    (102, 'Shaving Cream', 3.50, 3, 8, 24, '2023-12-15', 'Sensitive Skin Shaving Cream', 6)
-    -- Add more 'Personal Care' products
-
--- Inserting Products related to 'Health Supplements'
-    INSERT INTO Product (id, pname, price, QinP, tP, totalQuantity, expDate, des, cId)
-VALUES
-    (103, 'Multivitamin Tablets', 12.75, 1, 60, 60, '2024-01-01', 'Daily Health Supplement', 7),
-    (104, 'Whey Protein Powder', 29.99, 1, 20, 20, '2023-12-20', 'Vanilla Whey Protein', 8)
--- Add more 'Health Supplements' products
-
--- Add more products for other categories as needed
--- More Products related to 'Personal Care'
-    INSERT INTO Product (id, pname, price, QinP, tP, totalQuantity, expDate, des, cId)
-VALUES
-    (105, 'Moisturizing Lotion', 8.99, 2, 7, 14, '2023-12-25', 'Hydrating Skin Lotion', 5),
-    (106, 'Hair Conditioner', 6.50, 1, 15, 15, '2023-12-30', 'Nourishing Hair Conditioner', 6),
-    -- Add more 'Personal Care' products
-
--- More Products related to 'Health Supplements'
-    INSERT INTO Product (id, pname, price, QinP, tP, totalQuantity, expDate, des, cId)
-VALUES
-    (107, 'Omega-3 Fish Oil Capsules', 18.75, 1, 30, 30, '2024-01-10', 'Essential Fatty Acids', 7)
-    (108, 'Pre-workout Supplement', 24.99, 1, 10, 10, '2023-12-18', 'Energy Boosting Supplement', 8)
--- Add more 'Health Supplements' products
-
--- More Products related to other categories
--- Add additional products for 'Skincare', 'Hair Care', 'Vitamins', 'Proteins' or any other categories as needed
--- More Products related to 'Skincare'
-    INSERT INTO Product (id, pname, price, QinP, tP, totalQuantity, expDate, des, cId)
-VALUES
-    (109, 'Acne Spot Treatment', 7.25, 1, 12, 12, '2023-12-28', 'Spot Treatment Gel', 5),
-    (110, 'Sunscreen Lotion', 9.99, 1, 20, 20, '2024-01-05', 'SPF 50 Sun Protection', 5),
-    -- Add more 'Skincare' products
-
--- More Products related to 'Hair Care'
-    INSERT INTO Product (id, pname, price, QinP, tP, totalQuantity, expDate, des, cId)
-VALUES
-    (111, 'Hair Serum', 11.50, 1, 15, 15, '2023-12-31', 'Frizz Control Serum', 6),
-    (112, 'Hair Mask', 14.75, 1, 8, 8, '2024-01-15', 'Repairing Hair Mask', 6),
-    -- Add more 'Hair Care' products
-
--- More Products related to 'Vitamins'
-    INSERT INTO Product (id, pname, price, QinP, tP, totalQuantity, expDate, des, cId)
-VALUES
-    (113, 'Vitamin C Tablets', 6.99, 1, 30, 30, '2024-01-08', 'Antioxidant Support', 7),
-    (114, 'Vitamin D3 Capsules', 5.50, 1, 60, 60, '2024-01-20', 'Bone Health Supplement', 7),
-    -- Add more 'Vitamins' products
-
--- More Products related to 'Proteins'
-    INSERT INTO Product (id, pname, price, QinP, tP, totalQuantity, expDate, des, cId)
-VALUES
-    (115, 'Plant-Based Protein Powder', 22.99, 1, 18, 18, '2023-12-22', 'Vegan Protein Supplement', 8),
-    (116, 'Casein Protein Bars', 14.25, 1, 12, 12, '2024-01-02', 'Slow Release Protein Snack', 8);
--- Add more 'Proteins' products
+CREATE TABLE pos.orders (
+                            Id INT NOT NULL AUTO_INCREMENT,
+                            orderPrice INT NULL,
+                            customer VARCHAR(45) NULL,
+                            orderDate TIMESTAMP NULL,
+                            PRIMARY KEY (Id));
 
 
--- More Products related to 'Skincare'
-INSERT INTO Product (id, pname, price, QinP, tP, totalQuantity, expDate, des, cId)
-VALUES
-    (117, 'Facial Cleanser', 8.50, 1, 10, 10, '2023-12-28', 'Gentle Foaming Cleanser', 5),
-    (118, 'Night Cream', 12.99, 1, 8, 8, '2024-01-05', 'Hydrating Night Cream', 5),
-    -- Add more 'Skincare' products
+use pos;
+select * from orderitem;CREATE TABLE orderitem (
+                                                   id int NOT NULL AUTO_INCREMENT,
+                                                   Name varchar(100) DEFAULT NULL,
+                                                   price double DEFAULT NULL,
+                                                   totalQuantity int DEFAULT NULL,
+                                                   totalPrice double DEFAULT NULL,
+                                                   orderId int DEFAULT NULL,
+                                                   PRIMARY KEY (id),
+                                                   KEY ordersitems_idx (orderId),
+                                                   CONSTRAINT ordersitems FOREIGN KEY (orderId) REFERENCES orders (Id) ON DELETE CASCADE ON UPDATE CASCADE
+                        )
 
--- More Products related to 'Hair Care'
-    INSERT INTO Product (id, pname, price, QinP, tP, totalQuantity, expDate, des, cId)
-VALUES
-    (119, 'Hair Oil', 9.75, 1, 15, 15, '2023-12-31', 'Nourishing Hair Oil', 6),
-    (120, 'Dry Shampoo', 7.25, 1, 10, 10, '2024-01-15', 'Instant Refresh Dry Shampoo', 6),
-    -- Add more 'Hair Care' products
 
--- More Products related to 'Vitamins'
-    INSERT INTO Product (id, pname, price, QinP, tP, totalQuantity, expDate, des, cId)
-VALUES
-    (121, 'Biotin Supplement', 11.99, 1, 30, 30, '2024-01-08', 'Supports Hair & Nail Health', 7),
-    (127, 'Calcium & Magnesium Tablets', 8.50, 1, 60, 60, '2024-01-20', 'Bone Health Support', 7),
-    -- Add more 'Vitamins' products
-
--- More Products related to 'Proteins'
-    INSERT INTO Product (id, pname, price, QinP, tP, totalQuantity, expDate, des, cId)
-VALUES
-    (128, 'Collagen Peptides Powder', 19.99, 1, 20, 20, '2023-12-22', 'Supports Skin Health', 8),
-    (129, 'Whey Isolate Protein Bars', 16.25, 1, 12, 12, '2024-01-02', 'Low Carb Protein Snack', 8);
--- Add more 'Proteins' products
+SELECT o.Id, o.orderPrice, o.customer, o.orderDate, i.Name AS productName FROM orders o
+                   JOIN orderitem i ON o.Id = i.orderId;

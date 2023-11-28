@@ -28,11 +28,15 @@ public class Cart extends ItemContainer{
         {
             total += i.getTotal();
         }
-        return total;
+        return (int)Math.round(total);
     }
     public void clear()
     {
         items.clear();
+    }
+    public Order generateOrder(String n)
+    {
+        return new Order(items,n,id);
     }
 
 

@@ -1,8 +1,8 @@
 package Model;
 
 public class Item {
-    Product product;
-    int quantityOrdered;
+    private Product product;
+    private int quantityOrdered;
 
     public Item(Product product, int quantityOrdered) {
         this.product = product;
