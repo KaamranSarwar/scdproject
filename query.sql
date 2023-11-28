@@ -153,3 +153,16 @@ CREATE TABLE `pos`.`orders` (
                                 `orderDate` TIMESTAMP NULL,
                                 PRIMARY KEY (`Id`));
 
+
+use pos;
+select * from orderitem;CREATE TABLE `orderitem` (
+                                                     `id` int NOT NULL AUTO_INCREMENT,
+                                                     `Name` varchar(100) DEFAULT NULL,
+                                                     `price` double DEFAULT NULL,
+                                                     `totalQuantity` int DEFAULT NULL,
+                                                     `totalPrice` double DEFAULT NULL,
+                                                     `orderId` int DEFAULT NULL,
+                                                     PRIMARY KEY (`id`),
+                                                     KEY `ordersitems_idx` (`orderId`),
+                                                     CONSTRAINT `ordersitems` FOREIGN KEY (`orderId`) REFERENCES `orders` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
+                        )
