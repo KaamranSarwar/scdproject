@@ -340,7 +340,7 @@ public class ReportsUi extends javax.swing.JFrame {
                 List<Product> products = ProductDAO.getProductsByCategoryAndSubcategories(selectedObject.toString());
                 populateProductTable(products);
         }
-        if(selectedNode.getUserObject().equals("Categories")){
+        if(selectedNode.getUserObject().equals("Categories")&&selectedNode!=null){
             List<Product> products1=ProductDAO.getAllProducts();
             populateProductTable(products1);
         }
