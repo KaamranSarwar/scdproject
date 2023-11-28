@@ -225,6 +225,7 @@ public class UpdateCategoryGUI extends javax.swing.JFrame {
         else if(des.isEmpty())
         {
             JOptionPane.showMessageDialog(this,"Please Enter Descripton of Category","Description not Entered",JOptionPane.INFORMATION_MESSAGE);
+
         }
         else {
             TreePath selectedPath = CategoryTree1.getSelectionPath();
@@ -234,7 +235,21 @@ public class UpdateCategoryGUI extends javax.swing.JFrame {
                 DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) selectedPath.getLastPathComponent();
                 String selectedText = selectedNode.getUserObject().toString();
                 int parentID = CategoryDAO.getID(selectedText);
+
                 oldCategory.setParentID(parentID);
+            }
+            if(oldCategory.getId() == oldCategory.getParentID())
+            {
+                JOptionPane.showMessageDialog(this,"Category cannot be a parent of itself","making own category as parent",JOptionPane.ERROR_MESSAGE);
+                CategoryTree1.clearSelection();
+                return;
+            }
+            List<Integer> childIds = CategoryDAO.getAllChilds(oldCategory.getId());
+            if(!checkChilds(childIds))
+            {
+                JOptionPane.showMessageDialog(this,"You cannot select this category child as parent","Child Selected as Parent",JOptionPane.ERROR_MESSAGE);
+                CategoryTree1.clearSelection();
+                return;
             }
             CategoryDAO.updateCategory(oldCategory);
             int cs = this.getExtendedState();
@@ -248,6 +263,18 @@ public class UpdateCategoryGUI extends javax.swing.JFrame {
         List<Category> allCategories = CategoryDAO.getAllCategory();
         DefaultMutableTreeNode root = AddCategoryGUI.buildCategoryTree(allCategories);
         return new DefaultTreeModel(root);
+    }
+    private boolean checkChilds(List<Integer> ids)
+    {
+        for(Integer i : ids)
+        {
+            if(oldCategory.getParentID()== i)
+            {
+                return false;
+            }
+            System.out.println(i);
+        }
+        return true;
     }
 
 
