@@ -384,6 +384,7 @@ public class CartGUI extends javax.swing.JFrame {
             int tq = getTotalQuantity(id);
             ProductDAO.updateProductQuantity(tp,tq,id);
         }
+        ProductDAO.deleteSoldProducts();
         Order order = cart.generateOrder(name);
         OrderDAO.addOrder(order);
         OrderItemDAO.addOrderItems(order);

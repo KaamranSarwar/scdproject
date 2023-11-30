@@ -42,6 +42,19 @@ public class ProductDAO {
             throw new RuntimeException(e);
         }
     }
+    public static void deleteSoldProducts()
+    {
+        Connection connection = DBConnector.getConnection();
+        String Query = "DELETE from product where totalQuantity = ?;";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(Query);
+            preparedStatement.setInt(1,0);
+            preparedStatement.executeUpdate();
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public static void updateProduct(Product p)
     {
         Connection connection = DBConnector.getConnection();
