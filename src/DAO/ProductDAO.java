@@ -201,21 +201,22 @@ public class ProductDAO {
     }
         public static void moveExpiredProducts() {
             try (Connection connection = DBConnector.getConnection()) {
-                String selectExpiredProductsQuery = "SELECT * FROM product WHERE expDate <= CURDATE()";
+                String selectExpiredProductsQuery = "SELECT * FROM pos.product WHERE expDate <= CURDATE()";
 
-                // Fetch expired products
                 try (PreparedStatement selectStatement = connection.prepareStatement(selectExpiredProductsQuery)) {
                     try (ResultSet resultSet = selectStatement.executeQuery()) {
                         while (resultSet.next()) {
                             int productId = resultSet.getInt("id");
                             String productName = resultSet.getString("pname");
                             double price = resultSet.getDouble("price");
-                            String expiredDate = resultSet.getString("expDate");
+                            int QinP = resultSet.getInt("QinP");
+                            int tP = resultSet.getInt("tP");
+                            int totalQuantity = resultSet.getInt("totalQuantity");
+                            Date expiredDate = resultSet.getDate("expDate");
                             String description = resultSet.getString("des");
-
+                            String catname=CategoryDAO.getName(resultSet.getInt("cId"));
                             // Insert expired product into expired_products table
-                            insertIntoExpiredProducts(connection, productId, productName, price, expiredDate, description);
-
+                            insertIntoExpiredProducts(connection, productId, productName, price, QinP, tP, totalQuantity, expiredDate, description,catname);
                             // Delete expired product from product table
                             deleteExpiredProduct(connection, productId);
                         }
@@ -228,24 +229,84 @@ public class ProductDAO {
 
         // Method to insert expired product into expired_products table
         private static void insertIntoExpiredProducts(Connection connection, int productId, String productName,
-                                                      double price, String expiredDate, String description) throws SQLException {
-            String insertQuery = "INSERT INTO expired_products (id, pname, price, expired_date, description) VALUES (?, ?, ?, ?, ?)";
+                                                      double price, int QinP, int tP, int totalQuantity,
+                                                      Date expiredDate, String description,String catname) throws SQLException {
+            String insertQuery = "INSERT INTO expired_products (id, pname, price, QinP, tP, totalQuantity, expired_date, description,cname) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
                 insertStatement.setInt(1, productId);
                 insertStatement.setString(2, productName);
                 insertStatement.setDouble(3, price);
-                insertStatement.setString(4, expiredDate);
-                insertStatement.setString(5, description);
+                insertStatement.setInt(4, QinP);
+                insertStatement.setInt(5, tP);
+                insertStatement.setInt(6, totalQuantity);
+                insertStatement.setDate(7, expiredDate);
+                insertStatement.setString(8, description);
+                insertStatement.setString(9,catname);
                 insertStatement.executeUpdate();
             }
         }
 
         // Method to delete expired product from product table
         private static void deleteExpiredProduct(Connection connection, int productId) throws SQLException {
-            String deleteQuery = "DELETE FROM product WHERE id = ?";
+            String deleteQuery = "DELETE FROM pos.product WHERE id = ?";
             try (PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery)) {
                 deleteStatement.setInt(1, productId);
                 deleteStatement.executeUpdate();
             }
         }
+
+    public static List<Product> getAllExpiredProducts() {
+        List<Product> expiredProducts = new ArrayList<>();
+        try (Connection connection = DBConnector.getConnection()) {
+            String selectExpiredProductsQuery = "SELECT * FROM expired_products";
+            try (PreparedStatement selectStatement = connection.prepareStatement(selectExpiredProductsQuery)) {
+                try (ResultSet resultSet = selectStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        int id = resultSet.getInt("id");
+                        String pname = resultSet.getString("pname");
+                        double price = resultSet.getDouble("price");
+                        int quantityInPack = resultSet.getInt("QinP");
+                        Date expiredDate = resultSet.getDate("expired_date");
+                        String description = resultSet.getString("description");
+                        int totalpack=resultSet.getInt("tP");
+                        int totalquantity=resultSet.getInt("totalQuantity");
+                        String categoryname=resultSet.getString("cname");
+                        int cid=CategoryDAO.getID(categoryname);
+                        Product expiredProduct = new Product(id, pname, price, quantityInPack, totalpack, totalquantity, expiredDate, description, cid);
+                        expiredProducts.add(expiredProduct);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle or log the exception appropriately
+        }
+        return expiredProducts;
+    }
+    public static List<Product> getProductsNearExpiry() {
+        List<Product> nearExpiryProducts = new ArrayList<>();
+        try (Connection connection = DBConnector.getConnection()) {
+            String selectProductsQuery = "SELECT id, pname, price, QinP, tP, totalQuantity, expDate, des, cId FROM product WHERE expDate <= DATE_ADD(CURDATE(), INTERVAL 15 DAY)";
+            try (PreparedStatement selectStatement = connection.prepareStatement(selectProductsQuery)) {
+                try (ResultSet resultSet = selectStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        int id = resultSet.getInt("id");
+                        String pname = resultSet.getString("pname");
+                        double price = resultSet.getDouble("price");
+                        int quantityInPack = resultSet.getInt("QinP");
+                        int totalPacks = resultSet.getInt("tP");
+                        int totalQuantity = resultSet.getInt("totalQuantity");
+                        Date expDate = resultSet.getDate("expDate");
+                        String description = resultSet.getString("des");
+                        int categoryId = resultSet.getInt("cId");
+                        Product product = new Product(id, pname, price, quantityInPack, totalPacks, totalQuantity, expDate, description, categoryId);
+                        nearExpiryProducts.add(product);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return nearExpiryProducts;
+    }
+
 }

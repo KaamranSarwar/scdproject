@@ -180,8 +180,15 @@ CREATE TABLE expired_products (
                                   description VARCHAR(1000) NULL,
                                   PRIMARY KEY (id)
 );
-INSERT INTO Product (id, pname, price, QinP, tP, totalQuantity, expDate, des, cId)
-VALUES (202, 'Entox Tablets', 5.49, 50, 10, 500, '2023-11-01', 'For pain', 26);
+-- Add columns to the existing table
+ALTER TABLE expired_products
+    ADD QinP INT NULL,
+    ADD tP INT NULL,
+    ADD totalQuantity INT NULL,
+    ADD expDate DATE NULL,
+    ADD des VARCHAR(1000) NULL,
+    ADD cname VARCHAR(100) NULL;
 
 
-select * from expired_products;
+select * from expired_products
+
