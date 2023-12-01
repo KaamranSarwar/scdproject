@@ -308,5 +308,121 @@ public class ProductDAO {
         }
         return nearExpiryProducts;
     }
+    public static List<Product> getProductsByCategoryNearToExpiry(String categoryName) {
+        List<Product> products = new ArrayList<>();
+        Connection connection = DBConnector.getConnection();
+        String query = "WITH RECURSIVE subcategories AS (\n" +
+                "    SELECT id FROM category WHERE cname LIKE ?\n" +
+                "    UNION ALL\n" +
+                "    SELECT c.id FROM category c\n" +
+                "    INNER JOIN subcategories sc ON c.parentId = sc.id\n" +
+                ")\n" +
+                "SELECT p.* FROM product p\n" +
+                "JOIN subcategories s ON p.cid = s.id\n" +
+                "WHERE p.expDate <= DATE_ADD(CURDATE(), INTERVAL 15 DAY)";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, "%" + categoryName + "%");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt(1);
+                String name = resultSet.getString(2);
+                double price = resultSet.getDouble(3);
+                int QperP = resultSet.getInt(4);
+                int TotalPacket = resultSet.getInt(5);
+                int total = resultSet.getInt(6);
+                java.util.Date date = resultSet.getDate(7);
+                String des = resultSet.getString(8);
+                int category = resultSet.getInt(9); // Update this index to match the category ID column
+                Product p = new Product(id, name, price, QperP, TotalPacket, total, date, des, category);
+                products.add(p);
+            }
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return products;
+    }
+
+    public static List<Product> getDeletedProductsByCategory(String categoryName) {
+        List<Product> products = new ArrayList<>();
+        try (Connection connection = DBConnector.getConnection()) {
+            // Fetch the category IDs for the provided category name and its subcategories
+            List<Integer> categoryIds = getCategoryAndSubcategoryIds(connection, categoryName);
+
+            // Prepare the SQL query for fetching products based on category IDs
+            String productQuery = "SELECT * FROM expired_products WHERE ";
+
+            // Include the category IDs in the query
+            for (int i = 0; i < categoryIds.size(); i++) {
+                if (i != 0) {
+                    productQuery += " OR ";
+                }
+                productQuery += "cname = ?";
+            }
+
+            try (PreparedStatement productStatement = connection.prepareStatement(productQuery)) {
+                // Set the category IDs as parameters in the prepared statement
+                for (int i = 0; i < categoryIds.size(); i++) {
+                    productStatement.setString(i + 1, CategoryDAO.getName(categoryIds.get(i)));
+                }
+
+                try (ResultSet productResultSet = productStatement.executeQuery()) {
+                    while (productResultSet.next()) {
+                        // Fetch product details and add them to the list
+                        int productId = productResultSet.getInt("id");
+                        String productName = productResultSet.getString("pname");
+                        double price = productResultSet.getDouble("price");
+                        int qinpack=productResultSet.getInt("QinP");
+                        int totalpack=productResultSet.getInt("tp");
+                        int totquantity=productResultSet.getInt("totalQuantity");
+                        Date expiredDate = productResultSet.getDate("expired_date");
+                        String description = productResultSet.getString("description");
+                        int cid=CategoryDAO.getID(productResultSet.getString("cname"));
+                        Product product = new Product(productId, productName, price,qinpack,totalpack,totquantity, expiredDate, description,cid);
+                        products.add(product);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return products;
+    }
+
+    private static List<Integer> getCategoryAndSubcategoryIds(Connection connection, String categoryName) throws SQLException {
+        // Use recursive query to fetch category IDs for the provided category and its subcategories
+        String categoryQuery = "WITH RECURSIVE CategoryPath AS (" +
+                "    SELECT id FROM pos.category WHERE cname = ?" +
+                "    UNION ALL" +
+                "    SELECT c.id FROM pos.category c INNER JOIN CategoryPath cp ON cp.id = c.parentid" +
+                ")" +
+                "SELECT id FROM CategoryPath";
+
+        List<Integer> categoryIds = new ArrayList<>();
+        try (PreparedStatement categoryStatement = connection.prepareStatement(categoryQuery)) {
+            categoryStatement.setString(1, categoryName);
+            try (ResultSet categoryResultSet = categoryStatement.executeQuery()) {
+                while (categoryResultSet.next()) {
+                    categoryIds.add(categoryResultSet.getInt("id"));
+                }
+            }
+        }
+        return categoryIds;
+    }
+
+    public static void deleteAllFromExpired() {
+        try (Connection connection = DBConnector.getConnection()) {
+            String deleteQuery = "DELETE FROM expired_products";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
+                preparedStatement.executeUpdate();
+                System.out.println("All records deleted from expired_products table.");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
 }

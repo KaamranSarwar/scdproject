@@ -4,24 +4,25 @@ import DAO.CategoryDAO;
 import DAO.ProductDAO;
 import Model.Category;
 import Model.Product;
-
 import javax.swing.*;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-public class expiredProducts extends javax.swing.JFrame {
+public class expiredProductsUI extends javax.swing.JFrame {
 
     /**
      * Creates new form expiredProducts
      */
-    public expiredProducts() {
+    public expiredProductsUI() {
         initComponents();
         CategoryTree.setModel(getCategoryTree());
-
     }
 
     /**
@@ -70,7 +71,12 @@ public class expiredProducts extends javax.swing.JFrame {
                 BackbtnActionPerformed(evt);
             }
         });
-
+        CategoryTree.addTreeSelectionListener(new TreeSelectionListener() {
+            @Override
+            public void valueChanged(TreeSelectionEvent e) {
+                CategoryTreeActionPerform(e);
+            }
+        });
         jScrollPane1.setViewportView(CategoryTree);
 
         productTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -94,7 +100,12 @@ public class expiredProducts extends javax.swing.JFrame {
         deleteAllproducts.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         deleteAllproducts.setForeground(new java.awt.Color(255, 0, 51));
         deleteAllproducts.setLabel("Delete All Products");
-
+        deleteAllproducts.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                deleteAllproductsActionPerform(e);
+            }
+        });
         nearToExpire.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
         nearToExpire.setText("Near To Expire");
 
@@ -165,6 +176,47 @@ public class expiredProducts extends javax.swing.JFrame {
         pack();
     }// </editor-fold>
 
+    private void deleteAllproductsActionPerform(ActionEvent e) {
+        int op = JOptionPane.showConfirmDialog(this,"Do you really want to delete this category. \nIt will also Delete sub categories and products  belong to these categories","Deleting Category",JOptionPane.YES_NO_OPTION);
+        System.out.println(op);
+        if(op == 0)
+        {
+            ProductDAO.deleteAllFromExpired();
+        }
+    }
+
+    private void CategoryTreeActionPerform(TreeSelectionEvent e) {
+        TreePath selectedPath = CategoryTree.getSelectionPath();
+        int parentID = 0;
+        String selectedText=null;
+        if (selectedPath != null) {
+            DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) selectedPath.getLastPathComponent();
+            selectedText= selectedNode.getUserObject().toString();
+            parentID = CategoryDAO.getID(selectedText);
+        }
+        if(nearToExpire.isSelected()){
+            if(selectedText!=null){
+                List<Product> p=ProductDAO.getProductsByCategoryNearToExpiry(selectedText);
+                addDataToTable(p);
+            }
+            if(selectedText.equals("Categories")){
+                List<Product> p=ProductDAO.getProductsNearExpiry();
+                addDataToTable(p);
+            }
+        }
+        if(Expiredproducts.isSelected()){
+            if(selectedText.equals("Categories")){
+                List<Product> p=ProductDAO.getAllExpiredProducts();
+                addDataToTable(p);
+            }
+            else if(selectedText!=null){
+                List<Product> p=ProductDAO.getDeletedProductsByCategory(selectedText);
+                addDataToTable(p);
+            }
+
+        }
+    }
+
     private void ExpiredproductsActionPerform(ActionEvent e) {
         Toplabel.setText("Expired Products");
         deleteAllproducts.setVisible(true);
@@ -189,7 +241,6 @@ public class expiredProducts extends javax.swing.JFrame {
     }
     public void addDataToTable(List<Product> productList) {
         DefaultTableModel model = (DefaultTableModel) productTable.getModel();
-
         // Clear existing data from the table
         model.setRowCount(0);
 
@@ -208,9 +259,6 @@ public class expiredProducts extends javax.swing.JFrame {
             model.addRow(rowData);
         }
     }
-
-
-
     /**
      * @param args the command line arguments
      */
@@ -228,20 +276,20 @@ public class expiredProducts extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(expiredProducts.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(expiredProductsUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(expiredProducts.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(expiredProductsUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(expiredProducts.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(expiredProductsUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(expiredProducts.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(expiredProductsUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new expiredProducts().setVisible(true);
+                new expiredProductsUI().setVisible(true);
             }
         });
     }

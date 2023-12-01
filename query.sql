@@ -172,23 +172,26 @@ SELECT o.Id, o.orderPrice, o.customer, o.orderDate, i.Name AS productName FROM o
                    JOIN orderitem i ON o.Id = i.orderId;
 
 
-CREATE TABLE expired_products (
-                                  id INT NOT NULL AUTO_INCREMENT,
-                                  pname VARCHAR(45) NULL,
-                                  price DOUBLE NULL,
-                                  expired_date DATE NULL,
-                                  description VARCHAR(1000) NULL,
-                                  PRIMARY KEY (id)
-);
--- Add columns to the existing table
-ALTER TABLE expired_products
-    ADD QinP INT NULL,
-    ADD tP INT NULL,
-    ADD totalQuantity INT NULL,
-    ADD expDate DATE NULL,
-    ADD des VARCHAR(1000) NULL,
-    ADD cname VARCHAR(100) NULL;
-
-
 select * from expired_products
 
+create table if not exists pos.expired_products
+(
+    id            int auto_increment
+        primary key,
+    pname         varchar(45)   null,
+    price         double        null,
+    expired_date  date          null,
+    description   varchar(1000) null,
+    QinP          int           null,
+    tP            int           null,
+    totalQuantity int           null,
+    expDate       date          null,
+    des           varchar(1000) null,
+    cname         varchar(100)  null
+);
+
+INSERT INTO expired_products (pname, price, expired_date, description, cname) VALUES ('Amoxicillin', 15.99, '2023-12-01', 'Broad-spectrum antibiotic', 'Personal Care Products');
+
+INSERT INTO expired_products (pname, price, expired_date, description, cname) VALUES ('Vitamin C', 12.95, '2023-11-15', 'Immune system support', 'Personal Care Products');
+
+INSERT INTO expired_products (pname, price, expired_date, description, cname) VALUES ('Entox Tablets', 5.49, '2023-11-01', 'For pain', 'Personal Care Products');
