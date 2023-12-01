@@ -81,6 +81,9 @@ public class ReportsUi extends javax.swing.JFrame {
         nextdate = new JDateChooser();
         setupDateChooser(previousdate);
         setupDateChooser(nextdate);
+        Calendar currentDate = Calendar.getInstance();
+        previousdate.setMaxSelectableDate(currentDate.getTime());
+        nextdate.setMaxSelectableDate(currentDate.getTime());
         generatereportbtn = new java.awt.Button();
         generatepdfbtn = new java.awt.Button();
         profitlabel = new javax.swing.JLabel();
@@ -480,7 +483,13 @@ public class ReportsUi extends javax.swing.JFrame {
             selectedText= selectedNode.getUserObject().toString();
             parentID = CategoryDAO.getID(selectedText);
         }
-        if(selectedText.equals("Categories")&&!searchtextfield.getText().isEmpty()){
+        if (!searchtextfield.getText().isEmpty()&&selectedPath==null) {
+            String name = searchtextfield.getText();
+            List<Product> p;
+            p = ProductDAO.getProductsByName(name);
+            populateProductTable(p);
+        }
+        else if(selectedText.equals("Categories")&&!searchtextfield.getText().isEmpty()){
             String name = searchtextfield.getText();
             List<Product> p=ProductDAO.getProductsByName(name);
             populateProductTable(p);
@@ -505,19 +514,11 @@ public class ReportsUi extends javax.swing.JFrame {
             }
 
             populateProductTable(combinedList);
-        } else if (!searchtextfield.getText().isEmpty()) {
-            String name = searchtextfield.getText();
-            List<Product> p;
-
-            if (selectedText.equals("Categories")) {
-                p = ProductDAO.getProductsByName(name);
-            } else {
-                p = ProductDAO.getProductsByCategoryAndSubcategories(selectedText);
-            }
-
-            populateProductTable(p);
-        } else if (selectedPath != null) {
+        }  else if (selectedPath != null) {
             List<Product> p = ProductDAO.getProductsByCategoryAndSubcategories(selectedText);
+            populateProductTable(p);
+        } else if (searchtextfield.getText().isEmpty()) {
+            List<Product> p=ProductDAO.getAllProducts();
             populateProductTable(p);
         }
     }
@@ -627,7 +628,7 @@ public class ReportsUi extends javax.swing.JFrame {
     }
     private void writeInProfitlabel(JTable table) {
         double totalProfit = 0.0;
-        int columnToCalculate = 1; // Assuming the second column index is 1 (0-based indexing)
+        int columnToCalculate = 1;
 
         for (int row = 0; row < table.getRowCount(); row++) {
             Object value = table.getValueAt(row, columnToCalculate);
@@ -635,7 +636,7 @@ public class ReportsUi extends javax.swing.JFrame {
                 totalProfit += (Double) value;
             }
         }
-        profitlabel.setText("Total profit is: " + totalProfit);
+        profitlabel.setText("Total Sales is: " + totalProfit);
     }
 
     /**
@@ -664,6 +665,7 @@ public class ReportsUi extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(ReportsUi.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
