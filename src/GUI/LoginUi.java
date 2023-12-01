@@ -1,5 +1,6 @@
 package GUI;
 
+import DAO.ProductDAO;
 import DAO.UserDao;
 import Model.User;
 
@@ -134,6 +135,7 @@ public class LoginUi extends JFrame {
                 //JOptionPane.showMessageDialog(null, "Login successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 String role=userDao.getUserRole(user);
                // System.out.println(role);
+                ProductDAO.moveExpiredProducts();
                 if(Objects.equals(role, "manager")){
                    new addUserUI(user).setVisible(true);
                 }

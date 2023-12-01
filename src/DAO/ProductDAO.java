@@ -199,7 +199,53 @@ public class ProductDAO {
         }
         return products;
     }
+        public static void moveExpiredProducts() {
+            try (Connection connection = DBConnector.getConnection()) {
+                String selectExpiredProductsQuery = "SELECT * FROM product WHERE expDate <= CURDATE()";
 
+                // Fetch expired products
+                try (PreparedStatement selectStatement = connection.prepareStatement(selectExpiredProductsQuery)) {
+                    try (ResultSet resultSet = selectStatement.executeQuery()) {
+                        while (resultSet.next()) {
+                            int productId = resultSet.getInt("id");
+                            String productName = resultSet.getString("pname");
+                            double price = resultSet.getDouble("price");
+                            String expiredDate = resultSet.getString("expDate");
+                            String description = resultSet.getString("des");
 
+                            // Insert expired product into expired_products table
+                            insertIntoExpiredProducts(connection, productId, productName, price, expiredDate, description);
 
+                            // Delete expired product from product table
+                            deleteExpiredProduct(connection, productId);
+                        }
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // Method to insert expired product into expired_products table
+        private static void insertIntoExpiredProducts(Connection connection, int productId, String productName,
+                                                      double price, String expiredDate, String description) throws SQLException {
+            String insertQuery = "INSERT INTO expired_products (id, pname, price, expired_date, description) VALUES (?, ?, ?, ?, ?)";
+            try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
+                insertStatement.setInt(1, productId);
+                insertStatement.setString(2, productName);
+                insertStatement.setDouble(3, price);
+                insertStatement.setString(4, expiredDate);
+                insertStatement.setString(5, description);
+                insertStatement.executeUpdate();
+            }
+        }
+
+        // Method to delete expired product from product table
+        private static void deleteExpiredProduct(Connection connection, int productId) throws SQLException {
+            String deleteQuery = "DELETE FROM product WHERE id = ?";
+            try (PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery)) {
+                deleteStatement.setInt(1, productId);
+                deleteStatement.executeUpdate();
+            }
+        }
 }

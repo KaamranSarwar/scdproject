@@ -170,3 +170,18 @@ select * from orderitem;CREATE TABLE orderitem (
 
 SELECT o.Id, o.orderPrice, o.customer, o.orderDate, i.Name AS productName FROM orders o
                    JOIN orderitem i ON o.Id = i.orderId;
+
+
+CREATE TABLE expired_products (
+                                  id INT NOT NULL AUTO_INCREMENT,
+                                  pname VARCHAR(45) NULL,
+                                  price DOUBLE NULL,
+                                  expired_date DATE NULL,
+                                  description VARCHAR(1000) NULL,
+                                  PRIMARY KEY (id)
+);
+INSERT INTO Product (id, pname, price, QinP, tP, totalQuantity, expDate, des, cId)
+VALUES (202, 'Entox Tablets', 5.49, 50, 10, 500, '2023-11-01', 'For pain', 26);
+
+
+select * from expired_products;
