@@ -1,5 +1,18 @@
 package GUI;
 
+import DAO.CategoryDAO;
+import DAO.ProductDAO;
+import Model.Category;
+import Model.Product;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+
 public class expiredProducts extends javax.swing.JFrame {
 
     /**
@@ -7,6 +20,8 @@ public class expiredProducts extends javax.swing.JFrame {
      */
     public expiredProducts() {
         initComponents();
+        CategoryTree.setModel(getCategoryTree());
+
     }
 
     /**
@@ -28,15 +43,28 @@ public class expiredProducts extends javax.swing.JFrame {
         deleteAllproducts = new java.awt.Button();
         nearToExpire = new javax.swing.JRadioButton();
         Expiredproducts = new javax.swing.JRadioButton();
-
+        buttonGroup=new ButtonGroup();
+        buttonGroup.add(Expiredproducts);
+        buttonGroup.add(nearToExpire);
+        nearToExpire.setSelected(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
         Toplabel.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
         Toplabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Toplabel.setText("Expired Poducts");
-
+        Toplabel.setText("Near to Expire Poducts");
         Backbtn.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
         Backbtn.setLabel("Back");
+        nearToExpire.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                nearToExpireActionperformed(e);
+            }
+        });
+        Expiredproducts.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ExpiredproductsActionPerform(e);
+            }
+        });
         Backbtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BackbtnActionPerformed(evt);
@@ -137,9 +165,51 @@ public class expiredProducts extends javax.swing.JFrame {
         pack();
     }// </editor-fold>
 
+    private void ExpiredproductsActionPerform(ActionEvent e) {
+        Toplabel.setText("Expired Products");
+        deleteAllproducts.setVisible(true);
+        List<Product> p=ProductDAO.getAllExpiredProducts();
+        addDataToTable(p);
+    }
+
+    private void nearToExpireActionperformed(ActionEvent e) {
+        Toplabel.setText("Near to Expire Products ");
+        deleteAllproducts.setVisible(false);
+        List<Product> p=ProductDAO.getProductsNearExpiry();
+        addDataToTable(p);
+    }
+
     private void BackbtnActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
+    private DefaultTreeModel getCategoryTree() {
+        List<Category> allCategories = CategoryDAO.getAllCategory();
+        DefaultMutableTreeNode root = AddCategoryGUI.buildCategoryTree(allCategories);
+        return new DefaultTreeModel(root);
+    }
+    public void addDataToTable(List<Product> productList) {
+        DefaultTableModel model = (DefaultTableModel) productTable.getModel();
+
+        // Clear existing data from the table
+        model.setRowCount(0);
+
+        for (Product product : productList) {
+            Object[] rowData = {
+                    product.getId(),
+                    product.getName(),
+                    product.getDescription(),
+                    product.getTotalPacks(),
+                    product.getQuantityInPack(),
+                    product.getTotalQuantity(),
+                    product.getPrice(),
+                    CategoryDAO.getName(product.getCategoryID()), // Assuming this method exists in your Product class
+                    product.getExpDate() // Assuming this method returns a suitable representation of the expiry date
+            };
+            model.addRow(rowData);
+        }
+    }
+
+
 
     /**
      * @param args the command line arguments
@@ -187,5 +257,7 @@ public class expiredProducts extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JRadioButton nearToExpire;
     private javax.swing.JTable productTable;
+    private ButtonGroup buttonGroup;
     // End of variables declaration
+
 }
