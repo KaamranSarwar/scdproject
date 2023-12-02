@@ -5,6 +5,8 @@ import DAO.UserDao;
 import Model.User;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.lang.management.PlatformLoggingMXBean;
 import java.util.Objects;
 
 public class LoginUi extends JFrame {
@@ -44,6 +46,14 @@ public class LoginUi extends JFrame {
 
         Loginbutton.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
         Loginbutton.setText("Login");
+        Loginbutton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ENTER"), "enter");
+        Loginbutton.getActionMap().put("enter", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Perform login action here
+                login();
+            }
+        });
         Loginbutton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 LoginbuttonActionPerformed(evt);
@@ -114,6 +124,8 @@ public class LoginUi extends JFrame {
         // TODO add your handling code here:
         login();
     }
+
+
 
     public void login(){
         if(userNamefield.getText().isEmpty()){
