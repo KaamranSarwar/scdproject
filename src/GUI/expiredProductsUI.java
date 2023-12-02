@@ -45,8 +45,10 @@ public class expiredProductsUI extends javax.swing.JFrame {
         nearToExpire = new javax.swing.JRadioButton();
         Expiredproducts = new javax.swing.JRadioButton();
         buttonGroup=new ButtonGroup();
+        lowstockradiobtn=new JRadioButton();
         buttonGroup.add(Expiredproducts);
         buttonGroup.add(nearToExpire);
+        buttonGroup.add(lowstockradiobtn);
         nearToExpire.setSelected(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         Toplabel.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
@@ -112,6 +114,14 @@ public class expiredProductsUI extends javax.swing.JFrame {
         Expiredproducts.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
         Expiredproducts.setText("expired Products");
 
+        lowstockradiobtn.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
+        lowstockradiobtn.setText("Low Stock");
+        lowstockradiobtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lowstockradiobtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -131,10 +141,12 @@ public class expiredProductsUI extends javax.swing.JFrame {
                                 .addComponent(deleteAllproducts, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(283, 283, 283))
                         .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(148, 148, 148)
-                                .addComponent(nearToExpire, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(53, 53, 53)
+                                .addGap(116, 116, 116)
+                                .addComponent(nearToExpire, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(39, 39, 39)
                                 .addComponent(Expiredproducts, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(73, 73, 73)
+                                .addComponent(lowstockradiobtn, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -147,7 +159,8 @@ public class expiredProductsUI extends javax.swing.JFrame {
                                 .addGap(31, 31, 31)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(nearToExpire)
-                                        .addComponent(Expiredproducts))
+                                        .addComponent(Expiredproducts)
+                                        .addComponent(lowstockradiobtn))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(jPanel1Layout.createSequentialGroup()
@@ -175,6 +188,13 @@ public class expiredProductsUI extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>
+
+    private void lowstockradiobtnActionPerformed(ActionEvent evt) {
+        Toplabel.setText(" Products On Low Stock ");
+        deleteAllproducts.setVisible(false);
+        List<Product> p=ProductDAO.getLowQuantityProducts();
+        addDataToTable(p);
+    }
 
     private void deleteAllproductsActionPerform(ActionEvent e) {
         int op = JOptionPane.showConfirmDialog(this,"Do you really want to delete this category. \nIt will also Delete sub categories and products  belong to these categories","Deleting Category",JOptionPane.YES_NO_OPTION);
@@ -210,10 +230,20 @@ public class expiredProductsUI extends javax.swing.JFrame {
                 addDataToTable(p);
             }
             else if(selectedText!=null){
-                List<Product> p=ProductDAO.getDeletedProductsByCategory(selectedText);
+                List<Product> p=ProductDAO.getProductsByCategoryNearToExpiry(selectedText);
                 addDataToTable(p);
             }
 
+        }
+        if(lowstockradiobtn.isSelected()){
+            if(selectedText.equals("Categories")){
+                List<Product> p=ProductDAO.getLowQuantityProducts();
+                addDataToTable(p);
+            }
+            else if(selectedText!=null){
+                List<Product> p=ProductDAO.getLowStockProductsByCategory(selectedText);
+                addDataToTable(p);
+            }
         }
     }
 
@@ -233,6 +263,8 @@ public class expiredProductsUI extends javax.swing.JFrame {
 
     private void BackbtnActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+        this.dispose();
+        new managerhome().setVisible(true);
     }
     private DefaultTreeModel getCategoryTree() {
         List<Category> allCategories = CategoryDAO.getAllCategory();
@@ -306,6 +338,7 @@ public class expiredProductsUI extends javax.swing.JFrame {
     private javax.swing.JRadioButton nearToExpire;
     private javax.swing.JTable productTable;
     private ButtonGroup buttonGroup;
+    private JRadioButton lowstockradiobtn;
     // End of variables declaration
 
 }

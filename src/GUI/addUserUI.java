@@ -342,6 +342,8 @@ public class addUserUI extends JFrame {
 
     private void BackbuttonActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
+        new managerhome().setVisible(true);
+        this.dispose();
     }
     private void deletebuttonActionperform(ActionEvent e) {
         int selectedRow = Userstable.getSelectedRow();

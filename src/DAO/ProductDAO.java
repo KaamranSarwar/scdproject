@@ -29,6 +29,33 @@ public class ProductDAO {
         }
 
     }
+    public static List<Product> getLowQuantityProducts() {
+        List<Product> products = new ArrayList<>();
+        Connection connection = DBConnector.getConnection();
+        String query = "SELECT * FROM product WHERE totalQuantity <= 50";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt(1);
+                String name = resultSet.getString(2);
+                double price = resultSet.getDouble(3);
+                int QperP = resultSet.getInt(4);
+                int TotalPacket = resultSet.getInt(5);
+                int total = resultSet.getInt(6);
+                java.util.Date date = resultSet.getDate(7);
+                String des = resultSet.getString(8);
+                int Category = resultSet.getInt(9);
+                Product product = new Product(id, name, price, QperP, TotalPacket, total, date, des, Category);
+                products.add(product);
+            }
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return products;
+    }
+
     public static void deleteProduct(int id)
     {
         Connection connection = DBConnector.getConnection();
@@ -199,7 +226,43 @@ public class ProductDAO {
         }
         return products;
     }
-        public static void moveExpiredProducts() {
+    public static List<Product> getLowStockProductsByCategory(String categoryName) {
+        List<Product> products = new ArrayList<>();
+        Connection connection = DBConnector.getConnection();
+        String query = "WITH RECURSIVE subcategories AS (\n" +
+                "    SELECT id FROM category WHERE cname LIKE ?\n" +
+                "    UNION ALL\n" +
+                "    SELECT c.id FROM category c\n" +
+                "    INNER JOIN subcategories sc ON c.parentId = sc.id\n" +
+                ")\n" +
+                "SELECT p.* FROM product p\n" +
+                "JOIN subcategories s ON p.cid = s.id\n" +
+                "WHERE p.totalQuantity <= 50"; // Add condition for low stock
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, "%" + categoryName + "%");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt(1);
+                String name = resultSet.getString(2);
+                double price = resultSet.getDouble(3);
+                int QperP = resultSet.getInt(4);
+                int TotalPacket = resultSet.getInt(5);
+                int total = resultSet.getInt(6);
+                java.util.Date date = resultSet.getDate(7);
+                String des = resultSet.getString(8);
+                int category = resultSet.getInt(9); // Update this index to match the category ID column
+                Product p = new Product(id, name, price, QperP, TotalPacket, total, date, des, category);
+                products.add(p);
+            }
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return products;
+    }
+
+    public static void moveExpiredProducts() {
             try (Connection connection = DBConnector.getConnection()) {
                 String selectExpiredProductsQuery = "SELECT * FROM pos.product WHERE expDate <= CURDATE()";
 

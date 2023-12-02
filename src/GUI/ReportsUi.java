@@ -58,12 +58,11 @@ public class ReportsUi extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">
     private void initComponents() {
-
         jPanel1 = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         Inventorypanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        Logoutforinventory = new java.awt.Button();
+        backbtnforinventory = new java.awt.Button();
         searchtextfield = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -92,13 +91,32 @@ public class ReportsUi extends javax.swing.JFrame {
         buttonGroup.add(weeklyradiobtn);
         buttonGroup.add(monthlyradiobtn);
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
+        generatepdfbtn.setVisible(false);
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 21)); // NOI18N
+        Backbtn.setForeground(new java.awt.Color(255, 102, 102));
+        jLabel1.setForeground(new java.awt.Color(255, 102, 102));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Enter name of product to Search");
-
-        Logoutforinventory.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        Logoutforinventory.setLabel("Log Out");
+        Inventorypanel.setBackground(new java.awt.Color(237, 255, 244));
+        Salespanel.setBackground(new java.awt.Color(237, 255, 244));;
+        jScrollPane1.setForeground(new java.awt.Color(255, 102, 102));
+        backbtnforinventory.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        backbtnforinventory.setLabel("Back");
+        backbtnforinventory.setFont(new java.awt.Font("Times New Roman", 1, 26)); // NOI18N
+        backbtnforinventory.setForeground(new java.awt.Color(255, 102, 102));
+        backbtnforinventory.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                backbtnforinventoryActionPerformed(e);
+            }
+        });
+        Backbtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                BackbtnActionPerformed(e);
+            }
+        });
         searchtextfield.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -117,6 +135,7 @@ public class ReportsUi extends javax.swing.JFrame {
         });
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 102, 102));
         jLabel2.setText("Select Category");
 
         producttable.setModel(new javax.swing.table.DefaultTableModel(
@@ -159,6 +178,7 @@ public class ReportsUi extends javax.swing.JFrame {
         labelforexpireproducts=new JLabel();
         labelforexpireproducts.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
         labelforexpireproducts.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelforexpireproducts.setForeground(new java.awt.Color(255, 102, 102));
         labelforexpireproducts.setText("jLabel3");
 
         javax.swing.GroupLayout InventorypanelLayout = new javax.swing.GroupLayout(Inventorypanel);
@@ -182,7 +202,7 @@ public class ReportsUi extends javax.swing.JFrame {
                                 .addGroup(InventorypanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(InventorypanelLayout.createSequentialGroup()
                                                 .addGap(25, 25, 25)
-                                                .addComponent(Logoutforinventory, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(backbtnforinventory, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGroup(InventorypanelLayout.createSequentialGroup()
                                                 .addContainerGap()
                                                 .addComponent(labelforexpireproducts, javax.swing.GroupLayout.PREFERRED_SIZE, 850, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -192,7 +212,7 @@ public class ReportsUi extends javax.swing.JFrame {
                 InventorypanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(InventorypanelLayout.createSequentialGroup()
                                 .addGap(16, 16, 16)
-                                .addComponent(Logoutforinventory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(backbtnforinventory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(25, 25, 25)
                                 .addGroup(InventorypanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel1)
@@ -214,11 +234,6 @@ public class ReportsUi extends javax.swing.JFrame {
 
         Backbtn.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         Backbtn.setLabel("Back");
-        Backbtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BackbtnActionPerformed(evt);
-            }
-        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
                 new Object [][] {
@@ -277,6 +292,7 @@ public class ReportsUi extends javax.swing.JFrame {
         });
 
         profitlabel.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
+        profitlabel.setForeground(new java.awt.Color(255, 102, 102));
         profitlabel.setText("Profit label");
 
         javax.swing.GroupLayout SalespanelLayout = new javax.swing.GroupLayout(Salespanel);
@@ -367,6 +383,11 @@ public class ReportsUi extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>
+
+    private void backbtnforinventoryActionPerformed(ActionEvent e) {
+        this.setVisible(false);
+        new managerhome().setVisible(true);
+    }
 
     private void generatereportbtnActionPerformed(ActionEvent e) {
         if (buttonGroup.getSelection() != null) {
@@ -471,6 +492,8 @@ public class ReportsUi extends javax.swing.JFrame {
     }
 
     private void BackbtnActionPerformed(ActionEvent evt) {
+        this.dispose();
+        new managerhome().setVisible(true);
     }
 
     private void searchtextfieldActionPerformed(KeyEvent e) {
@@ -626,7 +649,16 @@ public class ReportsUi extends javax.swing.JFrame {
                 }
             }
         }
-        labelforexpireproducts.setText("The number of products \n"+" near to expiry are: "+redRowCount);
+        TreePath selectedPath=categorytree.getSelectionPath();
+        String selectedText=null;
+        if(selectedPath!=null){
+            DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) selectedPath.getLastPathComponent();
+            selectedText= selectedNode.getUserObject().toString();
+        }
+        if(selectedText==null){
+            selectedText=" Categories ";
+        }
+        labelforexpireproducts.setText("The number of products in \n"+selectedText+" "+table.getRowCount());
     }
     private void writeInProfitlabel(JTable table) {
         double totalProfit = 0.0;
@@ -681,7 +713,7 @@ public class ReportsUi extends javax.swing.JFrame {
     private java.awt.Button Backbtn;
     private javax.swing.JRadioButton Dailyradiobtn;
     private javax.swing.JPanel Inventorypanel;
-    private java.awt.Button Logoutforinventory;
+    private java.awt.Button backbtnforinventory;
     private javax.swing.JPanel Salespanel;
     private javax.swing.JTree categorytree;
     private java.awt.Button generatepdfbtn;

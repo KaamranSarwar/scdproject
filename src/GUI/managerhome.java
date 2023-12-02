@@ -47,6 +47,7 @@ public class managerhome extends javax.swing.JFrame {
         jPanel1.setToolTipText("");
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 48)); // NOI18N
+
         jLabel1.setForeground(new java.awt.Color(255, 102, 102));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Vitality Village Pharmacy");
@@ -240,6 +241,7 @@ public class managerhome extends javax.swing.JFrame {
 
     private void reportsButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+
         new ReportsUi().setVisible(true);
         this.dispose();
 
@@ -247,6 +249,7 @@ public class managerhome extends javax.swing.JFrame {
 
     private void expireProductsButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+
         new expiredProductsUI().setVisible(true);
         this.dispose();
     }
