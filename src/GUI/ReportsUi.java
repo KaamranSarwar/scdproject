@@ -489,12 +489,14 @@ public class ReportsUi extends javax.swing.JFrame {
             p = ProductDAO.getProductsByName(name);
             populateProductTable(p);
         }
-        else if(selectedText.equals("Categories")&&!searchtextfield.getText().isEmpty()){
-            String name = searchtextfield.getText();
-            List<Product> p=ProductDAO.getProductsByName(name);
-            populateProductTable(p);
+        else if(selectedText!=null){
+            if(selectedText.equals("Categories")&&!searchtextfield.getText().isEmpty()){
+                String name = searchtextfield.getText();
+                List<Product> p=ProductDAO.getProductsByName(name);
+                populateProductTable(p);
+            }
         }
-        else if (!searchtextfield.getText().isEmpty() && selectedPath != null) {
+        else if (!searchtextfield.getText().isEmpty() && selectedText != null) {
             String name = searchtextfield.getText();
             List<Product> productsByCategory = ProductDAO.getProductsByCategoryAndSubcategories(selectedText);
             List<Product> productsByName = ProductDAO.getProductsByName(name);
@@ -514,7 +516,7 @@ public class ReportsUi extends javax.swing.JFrame {
             }
 
             populateProductTable(combinedList);
-        }  else if (selectedPath != null) {
+        }  else if (selectedText!= null) {
             List<Product> p = ProductDAO.getProductsByCategoryAndSubcategories(selectedText);
             populateProductTable(p);
         } else if (searchtextfield.getText().isEmpty()) {
