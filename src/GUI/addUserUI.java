@@ -22,6 +22,7 @@ public class addUserUI extends JFrame {
     public addUserUI(User u) {
         user=u;
         initComponents();
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         updateTableWithUserData();
     }
 
@@ -48,10 +49,21 @@ public class addUserUI extends JFrame {
         ROLEcombobox = new JComboBox<>();
         Deletebutton = new JButton();
         updatebutton = new JButton();
-
+        rolecombolabel=new JLabel("Select Role ");
+        Deletebutton.setForeground(new java.awt.Color(255, 0, 51));
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
+        jPanel1.setBackground(new java.awt.Color(237, 255, 244));
         Backbutton.setText("Back");
+        Backbutton.setForeground(new java.awt.Color(255, 0, 51));
+        Backbutton.setFont(new java.awt.Font("Segoe UI Black", 1, 17));
+        jLabel1.setFont(new java.awt.Font("Segoe UI Black", 1, 18));
+        jLabel1.setForeground(new java.awt.Color(255, 102, 102));
+        jLabel3.setFont(new java.awt.Font("Segoe UI Black", 1, 18));
+        jLabel3.setForeground(new java.awt.Color(255, 102, 102));
+        jLabel4.setFont(new java.awt.Font("Segoe UI Black", 1, 18));
+        jLabel4.setForeground(new java.awt.Color(255, 102, 102));
+        rolecombolabel.setFont(new java.awt.Font("Segoe UI Black", 1, 18));
+        rolecombolabel.setForeground(new java.awt.Color(255, 102, 102));
         Backbutton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 BackbuttonActionPerformed(evt);
@@ -101,7 +113,7 @@ public class addUserUI extends JFrame {
         Deletebutton.setText("Delete");
 
         updatebutton.setText("Update");
-        rolecombolabel=new JLabel(" Select Role ");
+
         updatebutton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 updatebuttonActionPerformed(evt);
@@ -221,6 +233,7 @@ public class addUserUI extends JFrame {
            //String name, String id, String role, String password, String username
            User u1=new User(name,id,role,password,username);
            JPanel panel=new JPanel();
+           panel.setBackground(new java.awt.Color(237, 255, 244));
            panel.setLayout(new GridBagLayout());
            GridBagConstraints c = new GridBagConstraints();
            c.insets = new Insets(5, 5, 5, 5);

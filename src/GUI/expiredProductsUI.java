@@ -42,10 +42,14 @@ public class expiredProductsUI extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         productTable = new javax.swing.JTable();
         deleteAllproducts = new java.awt.Button();
+        deleteAllproducts.setForeground(new java.awt.Color(255, 102, 102));
         nearToExpire = new javax.swing.JRadioButton();
+        nearToExpire.setForeground(new java.awt.Color(255, 102, 102));
         Expiredproducts = new javax.swing.JRadioButton();
+        Expiredproducts.setForeground(new java.awt.Color(255, 102, 102));
         buttonGroup=new ButtonGroup();
         lowstockradiobtn=new JRadioButton();
+        lowstockradiobtn.setForeground(new java.awt.Color(255, 102, 102));
         buttonGroup.add(Expiredproducts);
         buttonGroup.add(nearToExpire);
         buttonGroup.add(lowstockradiobtn);
@@ -56,6 +60,7 @@ public class expiredProductsUI extends javax.swing.JFrame {
         Toplabel.setText("Near to Expire Poducts");
         Backbtn.setFont(new java.awt.Font("Ebrima", 1, 14)); // NOI18N
         Backbtn.setLabel("Back");
+        Toplabel.setForeground(new java.awt.Color(255, 102, 102));
         nearToExpire.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -124,6 +129,9 @@ public class expiredProductsUI extends javax.swing.JFrame {
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
+        jPanel1.setBackground(new java.awt.Color(237, 255, 244));
+        Backbtn.setForeground(new java.awt.Color(255, 102, 102));
+
         jPanel1Layout.setHorizontalGroup(
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
@@ -197,7 +205,7 @@ public class expiredProductsUI extends javax.swing.JFrame {
     }
 
     private void deleteAllproductsActionPerform(ActionEvent e) {
-        int op = JOptionPane.showConfirmDialog(this,"Do you really want to delete this category. \nIt will also Delete sub categories and products  belong to these categories","Deleting Category",JOptionPane.YES_NO_OPTION);
+        int op = JOptionPane.showConfirmDialog(this,"Do you really want to delete these Expired Products ","Deleting Category",JOptionPane.YES_NO_OPTION);
         System.out.println(op);
         if(op == 0)
         {
