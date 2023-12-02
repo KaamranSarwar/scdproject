@@ -238,11 +238,7 @@ public class CategoryGUI extends javax.swing.JFrame {
             String parent = (String)CategoryTable.getValueAt(selectedRow,3);
             int parentId = CategoryDAO.getID(parent);
             Category c = new Category(id,name,des,parentId);
-            int cs = this.getExtendedState();
-            UpdateCategoryGUI a = new UpdateCategoryGUI(c);
-            a.setExtendedState(cs);
-            this.dispose();
-            a.setVisible(true);
+            new UpdateCategoryGUI(c,this,this).setVisible(true);
         }
 
     }
@@ -281,7 +277,7 @@ public class CategoryGUI extends javax.swing.JFrame {
         Image resizedImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         return new ImageIcon(resizedImg);
     }
-    private void loadCategory()
+    public void loadCategory()
     {
         List<Category> categories = CategoryDAO.getAllCategory();
         DefaultTableModel model = (DefaultTableModel) CategoryTable.getModel();
