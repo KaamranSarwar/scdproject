@@ -270,12 +270,7 @@ public class ProductGUI extends javax.swing.JFrame {
                 return;
             }
             Product p = new Product(id,name,price,qpp,tp,tq,d,des,CategoryId);
-
-            int cs = this.getExtendedState();
-            UpdateProductGUI a = new UpdateProductGUI(p);
-            a.setExtendedState(cs);
-            this.dispose();
-            a.setVisible(true);
+            new UpdateProductGUI(p,this,this).setVisible(true);
         }
     }
 
@@ -287,7 +282,7 @@ public class ProductGUI extends javax.swing.JFrame {
         this.dispose();
         a.setVisible(true);
     }
-    private void loadProducts()
+    public void loadProducts()
     {
         List<Product> products = ProductDAO.getAllProducts();
         DefaultTableModel model = (DefaultTableModel) productTable.getModel();
