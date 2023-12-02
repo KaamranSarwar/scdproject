@@ -137,7 +137,7 @@ public class LoginUi extends JFrame {
                // System.out.println(role);
                 ProductDAO.moveExpiredProducts();
                 if(Objects.equals(role, "manager")){
-                   new addUserUI(user).setVisible(true);
+                   new managerhome(user).setVisible(true);
                 }
                 else if(Objects.equals(role, "sales assistant")){
                     new AssistantGUI().setVisible(true);

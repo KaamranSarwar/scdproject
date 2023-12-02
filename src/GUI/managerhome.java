@@ -4,6 +4,8 @@
  */
 package GUI;
 
+import Model.User;
+
 import javax.swing.*;
 
 /**
@@ -15,7 +17,14 @@ public class managerhome extends javax.swing.JFrame {
     /**
      * Creates new form managerhome
      */
+    User user;
+    public managerhome(User u) {
+        user=u;
+        initComponents();
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+    }
     public managerhome() {
+        user=null;
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
@@ -235,7 +244,7 @@ public class managerhome extends javax.swing.JFrame {
 
     private void userButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-        new addUserUI(null).setVisible(true);
+        new addUserUI(user).setVisible(true);
         this.dispose();
     }
 
