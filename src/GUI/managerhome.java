@@ -219,26 +219,42 @@ public class managerhome extends javax.swing.JFrame {
 
     private void categoryButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+
+        CategoryGUI c = new CategoryGUI();
+        c.setVisible(true);
+        this.dispose();
+
     }
 
     private void productButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+        new ProductGUI().setVisible(true);
+        this.dispose();
     }
 
     private void userButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+        new addUserUI(null).setVisible(true);
+        this.dispose();
     }
 
     private void reportsButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+        new ReportsUi().setVisible(true);
+        this.dispose();
+
     }
 
     private void expireProductsButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+        new expiredProductsUI().setVisible(true);
+        this.dispose();
     }
 
     private void logOutButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+        new LoginUi().setVisible(true);
+        this.dispose();
     }
 
     /**
