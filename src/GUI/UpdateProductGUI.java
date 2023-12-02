@@ -286,11 +286,8 @@ public class UpdateProductGUI extends javax.swing.JFrame {
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-        int cs = this.getExtendedState();
-        ProductGUI a = new ProductGUI();
-        a.setExtendedState(cs);
+        new ProductGUI().setVisible(true);
         this.dispose();
-        a.setVisible(true);
     }
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {

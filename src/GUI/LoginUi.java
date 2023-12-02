@@ -148,13 +148,15 @@ public class LoginUi extends JFrame {
                 String role=userDao.getUserRole(user);
                // System.out.println(role);
                 ProductDAO.moveExpiredProducts();
+                this.dispose();
                 if(Objects.equals(role, "manager")){
-                   new managerhome(user).setVisible(true);
+                   managerhome m = new managerhome(user);
+                   m.setVisible(true);
+                   m.showAlerts();
                 }
                 else if(Objects.equals(role, "sales assistant")){
                     new AssistantGUI().setVisible(true);
                 }
-                this.dispose();
             }
             else {
             // Show an error message dialog if authentication fails

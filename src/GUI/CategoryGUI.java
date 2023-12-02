@@ -133,8 +133,8 @@ public class CategoryGUI extends javax.swing.JFrame {
         );
 
         CategoryTable.setBackground(new java.awt.Color(234, 236, 234));
-        CategoryTable.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        CategoryTable.setForeground(new java.awt.Color(255, 102, 102));
+        CategoryTable.setFont(new java.awt.Font("Segoe UI", Font.PLAIN, 14)); // NOI18N
+        CategoryTable.setForeground(new java.awt.Color(0,0,0));
         CategoryTable.setModel(new javax.swing.table.DefaultTableModel(
                 new Object [][] {
 
