@@ -40,7 +40,6 @@ public class OrderDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
     public static List<Order> getOrdersWithItems() {
         List<Order> orders = new ArrayList<>();
@@ -187,7 +186,18 @@ public class OrderDAO {
         }
         return orders;
     }
-
-
+    public static void deleteOrder(int id) throws SQLException {
+        try {
+            Connection connection=DBConnector.getConnection();
+            String Query = "delete from pos.orders where Id=?";
+            PreparedStatement preparedStatement=connection.prepareStatement(Query);
+            preparedStatement.setInt(1,id);
+            preparedStatement.execute();
+            connection.close();
+        } catch(SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
 
 }
