@@ -8,6 +8,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * THis Class Contains The data fo categories and Products.
+ * This data can be added to database by using this class.
+ */
 public class Main {
     public static void main(String[] args) {
         List<Category> categories = new ArrayList<>();

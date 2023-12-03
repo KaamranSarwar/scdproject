@@ -6,6 +6,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * This Class is used to Add, delete,retrieve and update information of products from database
+ */
 public class ProductDAO {
     /**
      * Adds a new product to the database.

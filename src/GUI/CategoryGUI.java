@@ -10,6 +10,11 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.util.List;
+
+/**
+ * UI to display Categories of product.
+ * User can add ,update and delete category by using this UI.
+ */
 public class CategoryGUI extends javax.swing.JFrame {
     public CategoryGUI(User u) {
         user = u;

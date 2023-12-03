@@ -29,6 +29,9 @@ import java.util.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * UI For Viewing reports
+ */
 public class ReportsUi extends javax.swing.JFrame {
 
 

@@ -7,6 +7,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is used to retrieve and add the data of orders in Database
+ */
 public class OrderDAO {
     /**
      * Retrieves the latest ID from the 'orders' table and returns a new ID incremented by one.

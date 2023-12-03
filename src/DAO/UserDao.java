@@ -9,6 +9,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This Class is used to Add, delete,retrieve and update information of user from database
+ */
 public class UserDao {
     /**
      * Adds a new user to the database.

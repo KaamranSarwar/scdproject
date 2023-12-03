@@ -11,6 +11,9 @@ import Model.User;
 import javax.swing.*;
 import java.util.List;
 
+/**
+ * Home Page UI of Manager
+ */
 public class managerhome extends javax.swing.JFrame {
 
     /**
