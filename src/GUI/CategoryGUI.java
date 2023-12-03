@@ -2,6 +2,8 @@
 package GUI;
 import DAO.CategoryDAO;
 import Model.Category;
+import Model.User;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -9,7 +11,8 @@ import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.util.List;
 public class CategoryGUI extends javax.swing.JFrame {
-    public CategoryGUI() {
+    public CategoryGUI(User u) {
+        user = u;
         initComponents();
         loadCategory();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -199,7 +202,7 @@ public class CategoryGUI extends javax.swing.JFrame {
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-        new managerhome().setVisible(true);
+        new managerhome(user).setVisible(true);
         this.dispose();
     }
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {
@@ -247,20 +250,15 @@ public class CategoryGUI extends javax.swing.JFrame {
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         int cs = this.getExtendedState();
-        AddCategoryGUI a = new AddCategoryGUI();
+        AddCategoryGUI a = new AddCategoryGUI(user);
         a.setExtendedState(cs);
         this.dispose();
         a.setVisible(true);
     }
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new CategoryGUI().setVisible(true);
-            }
-        });
-    }
+
 
     // Variables declaration - do not modify
+    private final User user;
     private javax.swing.JTable CategoryTable;
     private javax.swing.JButton addButton;
     private javax.swing.JButton deleteButton;

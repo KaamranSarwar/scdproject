@@ -3,6 +3,7 @@ package GUI;
 
 import DAO.CategoryDAO;
 import Model.Category;
+import Model.User;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -17,7 +18,8 @@ import java.util.Map;
 
 public class AddCategoryGUI extends javax.swing.JFrame {
 
-    public AddCategoryGUI() {
+    public AddCategoryGUI(User u) {
+        user = u;
         initComponents();
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -281,7 +283,7 @@ public class AddCategoryGUI extends javax.swing.JFrame {
             CategoryDAO.addCategory(c);
 
             int cs = this.getExtendedState();
-            CategoryGUI a = new CategoryGUI();
+            CategoryGUI a = new CategoryGUI(user);
             a.setExtendedState(cs);
             this.dispose();
             a.setVisible(true);
@@ -301,7 +303,7 @@ public class AddCategoryGUI extends javax.swing.JFrame {
     }
 
     public static DefaultMutableTreeNode buildCategoryTree(List<Category> categories) {
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Categories"); // You can set any root name you prefer
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Categories");
         Map<Integer, DefaultMutableTreeNode> parentNodeMap = new HashMap<>();
         for (Category category : categories) {
             DefaultMutableTreeNode node = new DefaultMutableTreeNode(category.getName());
@@ -317,11 +319,12 @@ public class AddCategoryGUI extends javax.swing.JFrame {
     }
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-        new CategoryGUI().setVisible(true);
+        new CategoryGUI(user).setVisible(true);
         this.dispose();
     }
 
     // Variables declaration - do not modify
+    private final User user;
     private javax.swing.JTree CategoryTree1;
     private javax.swing.JTextField IdField;
     private javax.swing.JButton addButton;

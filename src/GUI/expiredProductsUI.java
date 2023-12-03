@@ -4,6 +4,8 @@ import DAO.CategoryDAO;
 import DAO.ProductDAO;
 import Model.Category;
 import Model.Product;
+import Model.User;
+
 import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
@@ -20,7 +22,8 @@ public class expiredProductsUI extends javax.swing.JFrame {
     /**
      * Creates new form expiredProducts
      */
-    public expiredProductsUI() {
+    public expiredProductsUI(User u) {
+        user = u;
         initComponents();
         CategoryTree.setModel(getCategoryTree());
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -272,7 +275,7 @@ public class expiredProductsUI extends javax.swing.JFrame {
     private void BackbtnActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         this.dispose();
-        new managerhome().setVisible(true);
+        new managerhome(user).setVisible(true);
     }
     private DefaultTreeModel getCategoryTree() {
         List<Category> allCategories = CategoryDAO.getAllCategory();
@@ -299,40 +302,8 @@ public class expiredProductsUI extends javax.swing.JFrame {
             model.addRow(rowData);
         }
     }
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(expiredProductsUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(expiredProductsUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(expiredProductsUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(expiredProductsUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new expiredProductsUI().setVisible(true);
-            }
-        });
-    }
+    private final User user;
 
     // Variables declaration - do not modify
     private java.awt.Button Backbtn;

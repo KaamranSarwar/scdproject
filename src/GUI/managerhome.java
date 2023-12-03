@@ -20,18 +20,14 @@ public class managerhome extends javax.swing.JFrame {
     /**
      * Creates new form managerhome
      */
-    User user;
+    private final User user;
     public managerhome(User u) {
         user=u;
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
 
     }
-    public managerhome() {
-        user=null;
-        initComponents();
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -234,7 +230,7 @@ public class managerhome extends javax.swing.JFrame {
     private void categoryButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
 
-        CategoryGUI c = new CategoryGUI();
+        CategoryGUI c = new CategoryGUI(user);
         c.setVisible(true);
         this.dispose();
 
@@ -242,7 +238,7 @@ public class managerhome extends javax.swing.JFrame {
 
     private void productButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-        new ProductGUI().setVisible(true);
+        new ProductGUI(user).setVisible(true);
         this.dispose();
     }
 
@@ -255,7 +251,7 @@ public class managerhome extends javax.swing.JFrame {
     private void reportsButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
 
-        new ReportsUi().setVisible(true);
+        new ReportsUi(user).setVisible(true);
         this.dispose();
 
     }
@@ -263,7 +259,7 @@ public class managerhome extends javax.swing.JFrame {
     private void expireProductsButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
 
-        new expiredProductsUI().setVisible(true);
+        new expiredProductsUI(user).setVisible(true);
         this.dispose();
     }
 
@@ -273,40 +269,6 @@ public class managerhome extends javax.swing.JFrame {
         this.dispose();
     }
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(managerhome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(managerhome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(managerhome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(managerhome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new managerhome().setVisible(true);
-            }
-        });
-    }
     public void showAlerts()
     {
         List<Product> products = ProductDAO.getAllExpiredProducts();

@@ -7,6 +7,7 @@ import DAO.ProductDAO;
 import Model.Category;
 import Model.Order;
 import Model.Product;
+import Model.User;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
 
@@ -35,7 +36,8 @@ public class ReportsUi extends javax.swing.JFrame {
      * Creates new form ReportsUi
      */
     List<Product> products=new ArrayList<>();
-    public ReportsUi() {
+    public ReportsUi(User u) {
+        user = u;
         initComponents();
         products= ProductDAO.getAllProducts();
         populateProductTable(products);
@@ -386,7 +388,7 @@ public class ReportsUi extends javax.swing.JFrame {
 
     private void backbtnforinventoryActionPerformed(ActionEvent e) {
         this.setVisible(false);
-        new managerhome().setVisible(true);
+        new managerhome(user).setVisible(true);
     }
 
     private void generatereportbtnActionPerformed(ActionEvent e) {
@@ -493,7 +495,7 @@ public class ReportsUi extends javax.swing.JFrame {
 
     private void BackbtnActionPerformed(ActionEvent evt) {
         this.dispose();
-        new managerhome().setVisible(true);
+        new managerhome(user).setVisible(true);
     }
 
     private void searchtextfieldActionPerformed(KeyEvent e) {
@@ -673,43 +675,9 @@ public class ReportsUi extends javax.swing.JFrame {
         profitlabel.setText("Total Sales is: " + totalProfit);
     }
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ReportsUi.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ReportsUi.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ReportsUi.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ReportsUi.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ReportsUi().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify
+    private final User user;
     private java.awt.Button Backbtn;
     private javax.swing.JRadioButton Dailyradiobtn;
     private javax.swing.JPanel Inventorypanel;

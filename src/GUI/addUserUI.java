@@ -355,7 +355,7 @@ public class addUserUI extends JFrame {
 
     private void BackbuttonActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
-        new managerhome().setVisible(true);
+        new managerhome(user).setVisible(true);
         this.dispose();
     }
     private void deletebuttonActionperform(ActionEvent e) {
