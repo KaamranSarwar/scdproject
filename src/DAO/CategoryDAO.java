@@ -40,6 +40,7 @@ public class CategoryDAO{
             }
 
         }
+
     }
     public static void updateCategory(Category c)
     {
