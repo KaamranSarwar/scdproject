@@ -46,7 +46,7 @@ public class Order extends ItemContainer {
             total += i.getTotal();
         }
         this.total= (int) Math.round(total);
-        return total;
+        return this.total;
     }
 
     public String getCustomerName() {
