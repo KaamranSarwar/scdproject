@@ -13,11 +13,26 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * This class is used to store the details of order.
+ * It extends the item container to store items in it.
+ * It includes timestamp of order and customer name.
+ */
 public class Order extends ItemContainer {
     int total;
+
+    /**
+     * Sets timestamp of order.
+     * @param timestamp timestamp.
+     */
     public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
+
+    /**
+     * Sets the customer name.
+     * @param customerName customer name.
+     */
 
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
@@ -25,6 +40,13 @@ public class Order extends ItemContainer {
 
     private Timestamp timestamp;
     private String customerName;
+
+    /**
+     * Constructs the order of items.
+     * @param items1 List of item ordered.
+     * @param customerName name of customer.
+     * @param i id of order.
+     */
     public Order(List<Item> items1,String customerName,int i)
     {
         items = items1;
@@ -34,9 +56,19 @@ public class Order extends ItemContainer {
         id = i;
     }
 
+    /**
+     * Sets the total of cart.
+     * @param total total price
+     */
+
     public void setTotal(int total) {
         this.total = total;
     }
+
+    /**
+     * gets the total price of cart.
+     * @return total price.
+     */
 
     @Override
     public double getTotal() {
@@ -49,18 +81,40 @@ public class Order extends ItemContainer {
         return this.total;
     }
 
+    /**
+     * gets the customer name.
+     * @return name of customer.
+     */
+
     public String getCustomerName() {
         return customerName;
     }
 
+    /**
+     * Gets the timestamp of order.
+     * @return timestamp.
+     */
+
     public Timestamp getTimestamp() {
         return timestamp;
     }
+
+    /**
+     * Used to retrieve date in the format of string.
+     * @return date in the form of string.
+     */
     public String getDateInString()
     {
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM, yyyy   h:mm a");
         return sdf.format(timestamp);
     }
+
+    /**
+     * This method is used to create the invoice pdf of Order.
+     * @param customerPrice amount paid by customer for order.
+     * @throws DocumentException Exception for creating pdf document.
+     * @throws IOException  Input Output exception.
+     */
     public void generateInvoice(int customerPrice) throws DocumentException, IOException {
         String filePath = "src/invoices/invoiceID"+id+".pdf";
         Document document = new Document(PageSize.A4);
@@ -106,6 +160,12 @@ public class Order extends ItemContainer {
 
 
     }
+
+    /**
+     * Used to add the items in the table form in pdf document.
+     * @param document pdf document in which items are added.
+     * @param items items to be added.
+     */
 
     private void addItemsTable(Document document, List<Item> items) {
         PdfPTable table = new PdfPTable(5);
