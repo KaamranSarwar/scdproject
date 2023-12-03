@@ -4,9 +4,12 @@
  */
 package GUI;
 
+import DAO.ProductDAO;
+import Model.Product;
 import Model.User;
 
 import javax.swing.*;
+import java.util.List;
 
 /**
  *
@@ -22,6 +25,7 @@ public class managerhome extends javax.swing.JFrame {
         user=u;
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
+
     }
     public managerhome() {
         user=null;
@@ -303,6 +307,26 @@ public class managerhome extends javax.swing.JFrame {
             }
         });
     }
+    public void showAlerts()
+    {
+        List<Product> products = ProductDAO.getAllExpiredProducts();
+        if(!(products.isEmpty()))
+        {
+            JOptionPane.showMessageDialog(this,"Some Products Are Expired.\nTotal number of expired products = "+products.size(),"Expired Products",JOptionPane.WARNING_MESSAGE);
+        }
+        products = ProductDAO.getProductsNearExpiry();
+        if(!(products.isEmpty()))
+        {
+            JOptionPane.showMessageDialog(this,"Some Products Are Expiring Soon.\nTotal number of these products = "+products.size(),"Near to Expiry Products",JOptionPane.WARNING_MESSAGE);
+        }
+        products = ProductDAO.getLowQuantityProducts();
+        if(!(products.isEmpty()))
+        {
+            JOptionPane.showMessageDialog(this,"Some Products have low stock .\nTotal number of these products = "+products.size(),"Low Stock Products",JOptionPane.WARNING_MESSAGE);
+        }
+
+    }
+
 
     // Variables declaration - do not modify
     private javax.swing.JToggleButton categoryButton;

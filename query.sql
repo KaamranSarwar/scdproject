@@ -172,7 +172,7 @@ SELECT o.Id, o.orderPrice, o.customer, o.orderDate, i.Name AS productName FROM o
                    JOIN orderitem i ON o.Id = i.orderId;
 
 
-select * from expired_products
+select * from expired_products;
 
 create table if not exists pos.expired_products
 (

@@ -23,6 +23,7 @@ public class expiredProductsUI extends javax.swing.JFrame {
     public expiredProductsUI() {
         initComponents();
         CategoryTree.setModel(getCategoryTree());
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
     /**

@@ -294,7 +294,7 @@ public class ProductDAO {
         private static void insertIntoExpiredProducts(Connection connection, int productId, String productName,
                                                       double price, int QinP, int tP, int totalQuantity,
                                                       Date expiredDate, String description,String catname) throws SQLException {
-            String insertQuery = "INSERT INTO expired_products (id, pname, price, QinP, tP, totalQuantity, expired_date, description,cname) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            String insertQuery = "INSERT INTO expired_products (id, pname, price, QinP, tP, totalQuantity, expired_date, description,cname) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)";
             try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
                 insertStatement.setInt(1, productId);
                 insertStatement.setString(2, productName);
