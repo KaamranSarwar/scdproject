@@ -16,9 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author kaamr
+ * Interface For sale assistant to add items in the cart.
+ * items can be searched also.
  */
+
 public class AssistantGUI extends javax.swing.JFrame {
 
     /**

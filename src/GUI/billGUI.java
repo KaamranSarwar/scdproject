@@ -14,9 +14,10 @@ import javax.swing.table.DefaultTableModel;
 import java.io.IOException;
 
 /**
- *
- * @author kaamr
+ * User Interface of bill.
+ * It shows the finalized bill of customer.
  */
+
 public class billGUI extends javax.swing.JFrame {
 
     /**

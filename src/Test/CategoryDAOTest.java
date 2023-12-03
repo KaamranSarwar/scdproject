@@ -17,7 +17,6 @@ class CategoryDAOTest {
         assertTrue(CategoryDAO.checkID(1));
         CategoryDAO.deleteCategory(1);
     }
-
     @org.junit.jupiter.api.Test
     void updateCategory() {
         CategoryDAO.deleteCategory(1);
@@ -41,10 +40,10 @@ class CategoryDAOTest {
 
     @org.junit.jupiter.api.Test
     void getAllCategory() {
-        CategoryDAO categoryDAO = new CategoryDAO();
-        List<Category> categories = categoryDAO.getAllCategory();
+
+        List<Category> categories = CategoryDAO.getAllCategory();
         assertNotNull(categories);
-        assertTrue(categories.size() > 0);
+        assertFalse(categories.isEmpty());
     }
 
     @org.junit.jupiter.api.Test

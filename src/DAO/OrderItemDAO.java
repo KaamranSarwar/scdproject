@@ -7,7 +7,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * This class is used to store the information of all the items of an order in the database.
+ */
 public class OrderItemDAO {
+    /**
+     * ADD the items in the database.
+     * @param o Order which contains items.
+     */
     public static void addOrderItems(Order o )
     {
         Connection connection = DBConnector.getConnection();

@@ -11,10 +11,6 @@ import Model.User;
 import javax.swing.*;
 import java.util.List;
 
-/**
- *
- * @author kaamr
- */
 public class managerhome extends javax.swing.JFrame {
 
     /**

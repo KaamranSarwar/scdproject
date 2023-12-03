@@ -4,7 +4,6 @@ import DAO.OrderDAO;
 import Model.Item;
 import Model.Order;
 import Model.Product;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLData;
@@ -43,11 +42,12 @@ class OrderDAOTest {
     @Test
     void getOrdersWithItems() {
         List<Order> orders=OrderDAO.getOrdersWithItems();
-        assertTrue(orders.size()>0);
+        assertFalse(orders.isEmpty());
     }
 
     @Test
     void getOrdersWithItemsOnDate() throws ParseException {
+
     }
 
     @Test

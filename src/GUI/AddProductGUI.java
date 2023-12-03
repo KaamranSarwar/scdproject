@@ -15,8 +15,16 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class AddProductGUI extends javax.swing.JFrame {
+/**
+ * This class is used for adding the product in the database.
+ * It provides GUI which helps user to add the product.
+ */
 
+public class AddProductGUI extends javax.swing.JFrame {
+    /**
+     * Constructor of Add product GUI.
+     * @param u user using this app.
+     */
     public AddProductGUI(User u) {
         user = u;
         initComponents();
@@ -74,12 +82,6 @@ public class AddProductGUI extends javax.swing.JFrame {
 
         nameField.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         nameField.setForeground(new java.awt.Color(255, 102, 102));
-        nameField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nameFieldActionPerformed(evt);
-            }
-        });
-
         jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 102, 102));
         jLabel3.setText("Name");
@@ -110,11 +112,7 @@ public class AddProductGUI extends javax.swing.JFrame {
 
         qtyPackField.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         qtyPackField.setForeground(new java.awt.Color(255, 102, 102));
-        qtyPackField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                qtyPackFieldActionPerformed(evt);
-            }
-        });
+
 
         jLabel8.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 102, 102));
@@ -130,11 +128,6 @@ public class AddProductGUI extends javax.swing.JFrame {
 
         totalPacksField.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         totalPacksField.setForeground(new java.awt.Color(255, 102, 102));
-        totalPacksField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                totalPacksFieldActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -329,22 +322,11 @@ public class AddProductGUI extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>                         </editor-fold>
-    private void nameFieldActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-    }
 
-    private void formWindowClosed(java.awt.event.WindowEvent evt) {
-        // TODO add your handling code here:
-    }
-
-    private void qtyPackFieldActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-    }
-
-    private void totalPacksFieldActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-    }
-
+    /**
+     * Used to go to previous page.
+     * @param evt action event
+     */
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         int cs = this.getExtendedState();
@@ -354,6 +336,11 @@ public class AddProductGUI extends javax.swing.JFrame {
         a.setVisible(true);
 
     }
+
+    /**
+     * Used to add product to GUI.
+     * @param evt action event.
+     */
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
@@ -515,10 +502,21 @@ public class AddProductGUI extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Used to show message in GUI.
+     * @param message message
+     * @param title title of message.
+     * @param Type message type.
+     */
+
     private void showMessage(String message,String title,int Type)
     {
         JOptionPane.showMessageDialog(this,message,title,Type);
     }
+
+    /**
+     * Used to reset all the fields.
+     */
     private void resetFields()
     {
         IdField.setText("");
@@ -533,6 +531,13 @@ public class AddProductGUI extends javax.swing.JFrame {
 
 
     }
+
+    /**
+     * It removes the time part of date.
+     * Used for comparing two dates.
+     * @param date date
+     * @return date
+     */
     private Date removeTime(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -542,6 +547,10 @@ public class AddProductGUI extends javax.swing.JFrame {
         calendar.set(Calendar.MILLISECOND, 0);
         return calendar.getTime();
     }
+
+    /**
+     * Used to reset the Category tree to its original form.
+     */
     private void resetTree() {
         for (int i = 0; i < CategoryTree1.getRowCount(); i++) {
             CategoryTree1.collapseRow(i);

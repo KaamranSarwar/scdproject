@@ -6,7 +6,15 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Used to store ,update and delete information of categories in the database.
+ *
+ */
 public class CategoryDAO{
+    /**
+     * Adds the category in the database.
+     * @param c category to be added.
+     */
     public static void addCategory(Category c)
     {
         Connection connection = DBConnector.getConnection();
@@ -42,6 +50,11 @@ public class CategoryDAO{
         }
 
     }
+
+    /**
+     * Updates the information of category in the database.
+     * @param c category to be updated.
+     */
     public static void updateCategory(Category c)
     {
         Connection connection = DBConnector.getConnection();
@@ -67,6 +80,11 @@ public class CategoryDAO{
         }
 
     }
+
+    /**
+     * Deletes the category from database.
+     * @param id id of category.
+     */
     public static void deleteCategory(int id)
     {
         Connection connection = DBConnector.getConnection();
@@ -80,6 +98,11 @@ public class CategoryDAO{
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * Get all the categories in the database.
+     * @return list of categories.
+     */
     public static List<Category> getAllCategory()
     {
         List<Category> categories = new ArrayList<>();
@@ -99,6 +122,12 @@ public class CategoryDAO{
         }
         return categories;
     }
+
+    /**
+     * Get the name of particular category.
+     * @param cid id of category.
+     * @return name of category.
+     */
     public static String getName(int cid)
     {
         Connection connection = DBConnector.getConnection();
@@ -118,6 +147,12 @@ public class CategoryDAO{
         }
         return name;
     }
+
+    /**
+     * Gets all the subcategories of a category
+     * @param id id of category.
+     * @return list of id's of sub categories.
+     */
     public static List<Integer> getAllChilds( int id)
     {
         {
@@ -151,6 +186,12 @@ public class CategoryDAO{
         }
     }
 
+    /**
+     *Get the id of category by name.
+     * @param n name of category.
+     * @return id of category.
+     */
+
     public static int getID(String n)
     {
         Connection connection = DBConnector.getConnection();
@@ -170,6 +211,12 @@ public class CategoryDAO{
         }
         return 0;
     }
+
+    /**
+     * Check the id of category in the database.
+     * @param cid id of category.
+     * @return true if it is present in the database.
+     */
     public static boolean checkID(int cid)
     {
         Connection connection = DBConnector.getConnection();

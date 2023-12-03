@@ -16,8 +16,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class is used for adding the category in the database.
+ * It provides GUI which helps user to add the category.
+ */
+
 public class AddCategoryGUI extends javax.swing.JFrame {
 
+    /**
+     * Constructor OF GUI
+     * @param u user which is using this app.
+     */
     public AddCategoryGUI(User u) {
         user = u;
         initComponents();
@@ -234,6 +243,9 @@ public class AddCategoryGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>
 
+    /**
+     * adds the category to database.
+     */
 
     private void addCategoryToDB() {
         String Id = IdField.getText();
@@ -290,17 +302,21 @@ public class AddCategoryGUI extends javax.swing.JFrame {
         }
     }
 
-
-    private void formWindowClosed() {
-
-    }
-
-
+    /**
+     * Retrieve the tree of categories to display in the UI.
+     * @return tree of categories.
+     */
     public static DefaultTreeModel getCategoryTree() {
         List<Category> allCategories = CategoryDAO.getAllCategory();
         DefaultMutableTreeNode root = buildCategoryTree(allCategories);
         return new DefaultTreeModel(root);
     }
+
+    /**
+     * Used to build the category tree.
+     * @param categories categories of which tree is built.
+     * @return TreeNodes used in JTree
+     */
 
     public static DefaultMutableTreeNode buildCategoryTree(List<Category> categories) {
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("Categories");
@@ -317,6 +333,11 @@ public class AddCategoryGUI extends javax.swing.JFrame {
         }
         return root;
     }
+
+    /**
+     * Used to go to previous page.
+     * @param evt event performed
+     */
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         new CategoryGUI(user).setVisible(true);

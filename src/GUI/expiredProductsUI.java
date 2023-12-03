@@ -18,8 +18,8 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 /**
- * this is the User interface for showng
- * the Expiredproducts , Near to Expiredproducts
+ * this is the User interface for showing
+ * the Expired products , Near to Expired products
  * and products on low stock
  */
 public class expiredProductsUI extends javax.swing.JFrame {

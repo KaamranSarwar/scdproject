@@ -8,7 +8,7 @@ public class User {
     String role;
 
     /**
-     * default constructot initialzing the values
+     * default constructor initializing the values
      */
     public User(){
         name = null;
@@ -47,7 +47,7 @@ public class User {
 
     /**
      * this set the username of the user
-     * @param username
+     * @param username username
      */
 
     public void setUsername(String username) {
@@ -58,7 +58,7 @@ public class User {
 
     /**
      * this return the name of the user
-     * @return
+     * @return name
      */
     public String getName() {
         return name;
@@ -66,7 +66,7 @@ public class User {
 
     /**
      * this sets the name of the user
-     * @param name
+     * @param name name of user
      */
     public void setName(String name) {
         this.name = name;
@@ -74,7 +74,7 @@ public class User {
 
     /**
      * this returns id of the user
-     * @return
+     * @return id of user
      */
     public String getId() {
         return id;
@@ -82,7 +82,7 @@ public class User {
 
     /**
      * this set the id of the user
-     * @param id
+     * @param id id of user
      */
     public void setId(String id) {
         this.id = id;
@@ -90,7 +90,7 @@ public class User {
 
     /**
      * this return role
-     * @return
+     * @return role of user
      */
     public String getRole() {
         return role;
@@ -98,7 +98,7 @@ public class User {
 
     /**
      * the set role of the user
-     * @param role
+     * @param role role of user.
      */
     public void setRole(String role) {
         this.role = role;
@@ -106,7 +106,7 @@ public class User {
 
     /**
      * this return the password of the user
-     * @return
+     * @return password
      */
     public String getPassword() {
         return password;
@@ -114,7 +114,7 @@ public class User {
 
     /**
      * this sets the password of the user
-     * @param password
+     * @param password password
      */
     public void setPassword(String password) {
         this.password = password;
