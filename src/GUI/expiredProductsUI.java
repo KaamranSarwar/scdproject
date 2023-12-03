@@ -238,10 +238,9 @@ public class expiredProductsUI extends javax.swing.JFrame {
                 addDataToTable(p);
             }
             else if(selectedText!=null){
-                List<Product> p=ProductDAO.getProductsByCategoryNearToExpiry(selectedText);
+                List<Product> p=ProductDAO.getDeletedProductsByCategory(selectedText);
                 addDataToTable(p);
             }
-
         }
         if(lowstockradiobtn.isSelected()){
             if(selectedText.equals("Categories")){
