@@ -11,7 +11,7 @@ import java.util.List;
 
 public class UserDao {
 
-    public void addUser(User user){
+    public static void addUser(User user){
         Connection connection = DBConnector.getConnection();
         String Query = "Insert Into user(username,name,password,role) values(?,?,?,?);";
         try {
@@ -26,7 +26,7 @@ public class UserDao {
             throw new RuntimeException(e);
         }
     }
-    public void updateUserById(User user) {
+    public static void updateUserById(User user) {
         Connection connection = DBConnector.getConnection();
         String query = "UPDATE user SET name = ?, username = ?, password = ?, role = ? WHERE id = ?";
 
@@ -53,7 +53,7 @@ public class UserDao {
     }
 
 
-    public  boolean getUser(User user) {
+    public static boolean getUser(User user) {
         Connection connection = DBConnector.getConnection();
         String query = "SELECT * FROM user WHERE username = ?";
         try {
@@ -71,7 +71,7 @@ public class UserDao {
         }
     }
 
-    public  boolean validateUser(User user) {
+    public static boolean validateUser(User user) {
         Connection connection = DBConnector.getConnection();
         String query = "SELECT * FROM user WHERE username = ? and password=?";
         try {
@@ -89,7 +89,7 @@ public class UserDao {
         }
     }
 
-    public void deleteUser(User user) {
+    public static void deleteUser(User user) {
         Connection connection = DBConnector.getConnection();
         String query = "DELETE FROM user WHERE username = ?";
         try {
@@ -102,7 +102,7 @@ public class UserDao {
         }
     }
 
-    public String getUserRole(User user) {
+    public static String getUserRole(User user) {
         Connection connection = DBConnector.getConnection();
         String query = "SELECT role FROM user WHERE username = ? AND password = ?";
         try {
@@ -123,7 +123,7 @@ public class UserDao {
             throw new RuntimeException(e);
         }
     }
-    public List<User> getAllUsers() {
+    public static List<User> getAllUsers() {
         List<User> userList = new ArrayList<>();
         Connection connection = DBConnector.getConnection();
         String query = "SELECT * FROM user";
