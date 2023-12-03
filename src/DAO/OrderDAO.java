@@ -8,6 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDAO {
+    /**
+     * Retrieves the latest ID from the 'orders' table and returns a new ID incremented by one.
+     *
+     * @return The latest ID incremented by one
+     */
     public static int getLatestID()
     {
         int ID = 0;
@@ -26,6 +31,11 @@ public class OrderDAO {
         }
         return ID+1;
     }
+    /**
+     * Adds a new order to the 'orders' table with the given details.
+     *
+     * @param o The Order object to be added to the database
+     */
     public static void addOrder(Order o )
     {
         Connection connection = DBConnector.getConnection();
@@ -41,6 +51,11 @@ public class OrderDAO {
             throw new RuntimeException(e);
         }
     }
+    /**
+     * Retrieves a list of orders with their associated items from the database.
+     *
+     * @return A list of Order objects, each containing its associated items
+     */
     public static List<Order> getOrdersWithItems() {
         List<Order> orders = new ArrayList<>();
         try (Connection connection = DBConnector.getConnection()) {
@@ -86,7 +101,12 @@ public class OrderDAO {
         }
         return orders;
     }
-
+    /**
+     * Retrieves a list of orders along with their associated items on a specific date from the database.
+     *
+     * @param specificDate The specific date to retrieve orders for
+     * @return A list of Order objects containing associated items for the specified date
+     */
     public static List<Order> getOrdersWithItemsOnDate(Date specificDate) {
         List<Order> orders = new ArrayList<>();
         try (Connection connection = DBConnector.getConnection()) {
@@ -134,6 +154,13 @@ public class OrderDAO {
         }
         return orders;
     }
+    /**
+     * Retrieves a list of orders along with their associated items between two specified dates from the database.
+     *
+     * @param date1 The start date for filtering orders
+     * @param date2 The end date for filtering orders
+     * @return A list of Order objects containing associated items within the specified date range
+     */
     public static List<Order> getOrdersBetweenDates(Date date1, Date date2) {
         List<Order> orders = new ArrayList<>();
         try (Connection connection = DBConnector.getConnection()) {
@@ -186,6 +213,12 @@ public class OrderDAO {
         }
         return orders;
     }
+    /**
+     * Deletes an order from the database by its ID.
+     *
+     * @param id The ID of the order to be deleted
+     * @throws SQLException if a database access error occurs
+     */
     public static void deleteOrder(int id) throws SQLException {
         try {
             Connection connection=DBConnector.getConnection();

@@ -11,6 +11,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UserDaoTest {
 
+    /**
+     *this function is adding user in the db
+     */
     @Test
     void addUser() {
         User testuser=new User("testuser","1234","manager","123","testuser1");
@@ -28,6 +31,7 @@ class UserDaoTest {
         assertTrue(UserDao.getUser(testuser));
         UserDao.deleteUser(testuser);
     }
+
 
     @Test
     void getUser() {

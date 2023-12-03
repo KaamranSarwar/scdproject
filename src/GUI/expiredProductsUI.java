@@ -17,6 +17,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+/**
+ * this is the User interface for showng
+ * the Expiredproducts , Near to Expiredproducts
+ * and products on low stock
+ */
 public class expiredProductsUI extends javax.swing.JFrame {
 
     /**
@@ -207,6 +212,10 @@ public class expiredProductsUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>
 
+    /**
+     * this is a function when low stock radio button is selected it will show th low stock products
+     * @param evt
+     */
     private void lowstockradiobtnActionPerformed(ActionEvent evt) {
         Toplabel.setText(" Products On Low Stock ");
         deleteAllproducts.setVisible(false);
@@ -214,6 +223,10 @@ public class expiredProductsUI extends javax.swing.JFrame {
         addDataToTable(p);
     }
 
+    /**
+     * this is function when deleteAllProducts button is pressed it will delete all Expired products from db
+     * @param e
+     */
     private void deleteAllproductsActionPerform(ActionEvent e) {
         int op = JOptionPane.showConfirmDialog(this,"Do you really want to delete these Expired Products ","Deleting Category",JOptionPane.YES_NO_OPTION);
         System.out.println(op);
@@ -223,6 +236,10 @@ public class expiredProductsUI extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * when clicked on the category tree then this funtion will be called
+     * @param e
+     */
     private void CategoryTreeActionPerform(TreeSelectionEvent e) {
         TreePath selectedPath = CategoryTree.getSelectionPath();
         int parentID = 0;
@@ -264,6 +281,10 @@ public class expiredProductsUI extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * when Expiredproducts radio button is selected this function will be called
+     * @param e
+     */
     private void ExpiredproductsActionPerform(ActionEvent e) {
         Toplabel.setText("Expired Products");
         deleteAllproducts.setVisible(true);
@@ -271,6 +292,10 @@ public class expiredProductsUI extends javax.swing.JFrame {
         addDataToTable(p);
     }
 
+    /**
+     * when nearTOExpire radio button is selected this function will be called
+     * @param e
+     */
     private void nearToExpireActionperformed(ActionEvent e) {
         Toplabel.setText("Near to Expire Products ");
         deleteAllproducts.setVisible(false);
@@ -278,16 +303,30 @@ public class expiredProductsUI extends javax.swing.JFrame {
         addDataToTable(p);
     }
 
+    /**
+     * this is button to go back to the homepage
+     * @param evt
+     */
     private void BackbtnActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         this.dispose();
         new managerhome(user).setVisible(true);
     }
+
+    /**
+     * this function returns the root of the category tree from db
+     * @return
+     */
     private DefaultTreeModel getCategoryTree() {
         List<Category> allCategories = CategoryDAO.getAllCategory();
         DefaultMutableTreeNode root = AddCategoryGUI.buildCategoryTree(allCategories);
         return new DefaultTreeModel(root);
     }
+
+    /**
+     * function to add data into the table from the db
+     * @param productList
+     */
     public void addDataToTable(List<Product> productList) {
         DefaultTableModel model = (DefaultTableModel) productTable.getModel();
         // Clear existing data from the table

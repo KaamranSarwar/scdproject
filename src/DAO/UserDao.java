@@ -10,7 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDao {
-
+    /**
+     * Adds a new user to the database.
+     *
+     * @param user The user object to be added
+     * @throws RuntimeException if there's an issue executing the SQL query
+     */
     public static void addUser(User user){
         Connection connection = DBConnector.getConnection();
         String Query = "Insert Into user(username,name,password,role) values(?,?,?,?);";
@@ -26,6 +31,12 @@ public class UserDao {
             throw new RuntimeException(e);
         }
     }
+    /**
+     * Updates an existing user in the database based on their ID.
+     *
+     * @param user The user object containing updated information
+     * @throws RuntimeException if there's an issue executing the SQL query
+     */
     public static void updateUserById(User user) {
         Connection connection = DBConnector.getConnection();
         String query = "UPDATE user SET name = ?, username = ?, password = ?, role = ? WHERE id = ?";
@@ -52,7 +63,13 @@ public class UserDao {
         }
     }
 
-
+    /**
+     * Checks if a user exists based on the provided username.
+     *
+     * @param user The user object containing the username to check
+     * @return true if the user exists, false otherwise
+     * @throws RuntimeException if there's an issue executing the SQL query
+     */
     public static boolean getUser(User user) {
         Connection connection = DBConnector.getConnection();
         String query = "SELECT * FROM user WHERE username = ?";
@@ -70,6 +87,13 @@ public class UserDao {
             throw new RuntimeException(e);
         }
     }
+    /**
+     * Validates a user's credentials by checking the username and password.
+     *
+     * @param user The user object containing the username and password to validate
+     * @return true if the credentials are valid, false otherwise
+     * @throws RuntimeException if there's an issue executing the SQL query
+     */
 
     public static boolean validateUser(User user) {
         Connection connection = DBConnector.getConnection();
@@ -88,7 +112,12 @@ public class UserDao {
             throw new RuntimeException(e);
         }
     }
-
+    /**
+     * Deletes a user from the database based on the provided username.
+     *
+     * @param user The user object containing the username to be deleted
+     * @throws RuntimeException if there's an issue executing the SQL query
+     */
     public static void deleteUser(User user) {
         Connection connection = DBConnector.getConnection();
         String query = "DELETE FROM user WHERE username = ?";
@@ -101,7 +130,13 @@ public class UserDao {
             throw new RuntimeException(e);
         }
     }
-
+    /**
+     * Retrieves the role of a user based on the username and password.
+     *
+     * @param user The user object containing the username and password
+     * @return The role of the user
+     * @throws RuntimeException if the user is not found or incorrect credentials are provided
+     */
     public static String getUserRole(User user) {
         Connection connection = DBConnector.getConnection();
         String query = "SELECT role FROM user WHERE username = ? AND password = ?";
@@ -123,6 +158,12 @@ public class UserDao {
             throw new RuntimeException(e);
         }
     }
+    /**
+     * Retrieves a list of all users from the database.
+     *
+     * @return A list containing all user objects
+     * @throws RuntimeException if there's an issue executing the SQL query
+     */
     public static List<User> getAllUsers() {
         List<User> userList = new ArrayList<>();
         Connection connection = DBConnector.getConnection();
