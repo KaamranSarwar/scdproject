@@ -602,16 +602,20 @@ public class ReportsUi extends javax.swing.JFrame {
      */
     private void listnerfortree(){
         DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) categorytree.getLastSelectedPathComponent();
+        String selectedText=null;
         if (selectedNode != null) {
             Object selectedObject = selectedNode.getUserObject();
             // Assuming your category nodes have some identifier for categories
                 int categoryId =CategoryDAO.getID((String) selectedObject);
+            selectedText= selectedNode.getUserObject().toString();
                 List<Product> products = ProductDAO.getProductsByCategoryAndSubcategories(selectedObject.toString());
                 populateProductTable(products);
         }
-        if(selectedNode.getUserObject().equals("Categories")&&selectedNode!=null){
-            List<Product> products1=ProductDAO.getAllProducts();
-            populateProductTable(products1);
+        if(selectedText!=null){
+            if(selectedText.equals("Categories")&&selectedNode!=null){
+                List<Product> products1=ProductDAO.getAllProducts();
+                populateProductTable(products1);
+            }
         }
     }
     /**
