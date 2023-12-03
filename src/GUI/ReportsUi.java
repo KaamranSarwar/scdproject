@@ -546,20 +546,15 @@ public class ReportsUi extends javax.swing.JFrame {
             selectedText= selectedNode.getUserObject().toString();
             parentID = CategoryDAO.getID(selectedText);
         }
+        System.out.println(selectedText);
         if (!searchtextfield.getText().isEmpty()&&selectedPath==null) {
             String name = searchtextfield.getText();
             List<Product> p;
             p = ProductDAO.getProductsByName(name);
             populateProductTable(p);
         }
-        else if(selectedText!=null){
-            if(selectedText.equals("Categories")&&!searchtextfield.getText().isEmpty()){
-                String name = searchtextfield.getText();
-                List<Product> p=ProductDAO.getProductsByName(name);
-                populateProductTable(p);
-            }
-        }
-        else if (!searchtextfield.getText().isEmpty() && selectedText != null) {
+         if (!searchtextfield.getText().isEmpty() && selectedText != null) {
+            System.out.println("main wala   "+selectedText);
             String name = searchtextfield.getText();
             List<Product> productsByCategory = ProductDAO.getProductsByCategoryAndSubcategories(selectedText);
             List<Product> productsByName = ProductDAO.getProductsByName(name);
@@ -579,7 +574,16 @@ public class ReportsUi extends javax.swing.JFrame {
             }
 
             populateProductTable(combinedList);
-        }  else if (selectedText!= null) {
+        }
+        else if(selectedText!=null){
+            System.out.println(selectedText);
+            if(selectedText.equals("Categories")&&!searchtextfield.getText().isEmpty()){
+                String name = searchtextfield.getText();
+                List<Product> p=ProductDAO.getProductsByName(name);
+                populateProductTable(p);
+            }
+        }
+         else if (selectedText!= null) {
             List<Product> p = ProductDAO.getProductsByCategoryAndSubcategories(selectedText);
             populateProductTable(p);
         } else if (searchtextfield.getText().isEmpty()) {
@@ -598,7 +602,6 @@ public class ReportsUi extends javax.swing.JFrame {
      */
     private void listnerfortree(){
         DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) categorytree.getLastSelectedPathComponent();
-
         if (selectedNode != null) {
             Object selectedObject = selectedNode.getUserObject();
             // Assuming your category nodes have some identifier for categories
