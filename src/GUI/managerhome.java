@@ -123,7 +123,7 @@ public class managerhome extends javax.swing.JFrame {
         expireProductsButton.setBackground(new java.awt.Color(72, 250, 141));
         expireProductsButton.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
         expireProductsButton.setForeground(new java.awt.Color(255, 102, 102));
-        expireProductsButton.setText("View Expire Products");
+        expireProductsButton.setText("View Alerted Products");
         expireProductsButton.setBorder(null);
         expireProductsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -183,7 +183,7 @@ public class managerhome extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 48)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 102, 102));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Admin DashBoard");
+        jLabel2.setText("Manager DashBoard");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);

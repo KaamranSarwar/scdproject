@@ -1,5 +1,7 @@
 package Model;
 
+import java.text.DecimalFormat;
+
 /**
  * This item class is used to store the information of items bought by customer.
  * it includes the product and the quantity ordered by customer.
@@ -44,7 +46,19 @@ public class Item {
 
     public double getTotal()
     {
-        return product.getPrice()*quantityOrdered;
+        double  value = product.getPrice()*quantityOrdered;
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        String val = decimalFormat.format(value);
+        double total = 0.0;
+        try {
+            total = Double.parseDouble(val);
+        }
+        catch (NumberFormatException n)
+        {
+            System.out.println("Formatting error");
+        }
+        return total;
+
     }
 
     /**
