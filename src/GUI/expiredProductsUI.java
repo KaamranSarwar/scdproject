@@ -27,6 +27,12 @@ public class expiredProductsUI extends javax.swing.JFrame {
         initComponents();
         CategoryTree.setModel(getCategoryTree());
         setExtendedState(JFrame.MAXIMIZED_BOTH);
+        if(nearToExpire.isSelected()){
+            Toplabel.setText("Near to Expire Products ");
+            deleteAllproducts.setVisible(false);
+            List<Product> p=ProductDAO.getProductsNearExpiry();
+            addDataToTable(p);
+        }
     }
 
     /**

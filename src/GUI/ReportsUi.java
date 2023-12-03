@@ -413,14 +413,15 @@ public class ReportsUi extends javax.swing.JFrame {
                 if (prevdate != null && nexdate != null) {
                     long diffInMillies = Math.abs(nexdate.getTime() - prevdate.getTime());
                     long diffInDays = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-                    if (diffInDays > 7) {
-                        JOptionPane.showMessageDialog(this, "The gap between dates should not exceed one week.", "Error", JOptionPane.ERROR_MESSAGE);
-                    } else {
+                     if(diffInDays==6){
                         java.sql.Date sqlstartdate = new java.sql.Date(nexdate.getTime());
                         java.sql.Date sqlenddate = new java.sql.Date(prevdate.getTime());
                         List<Order> ordersList=OrderDAO.getOrdersBetweenDates(sqlstartdate,sqlenddate);
                         makesalestable(ordersList);
                     }
+                     else  {
+                         JOptionPane.showMessageDialog(this, "The gap between dates should be one week.", "Error", JOptionPane.ERROR_MESSAGE);
+                     }
                 } else {
                     JOptionPane.showMessageDialog(this, "Select date", "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -431,13 +432,14 @@ public class ReportsUi extends javax.swing.JFrame {
                 if (prevdate != null && nexdate != null) {
                     long diffInMillies = Math.abs(nexdate.getTime() - prevdate.getTime());
                     long diffInDays = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-                    if (diffInDays > 30) {
-                        JOptionPane.showMessageDialog(this, "The gap between dates should not exceed one Month.", "Error", JOptionPane.ERROR_MESSAGE);
-                    } else {
+                    if(diffInDays==29){
                         java.sql.Date sqlstartdate = new java.sql.Date(nexdate.getTime());
                         java.sql.Date sqlenddate = new java.sql.Date(prevdate.getTime());
                         List<Order> ordersList=OrderDAO.getOrdersBetweenDates(sqlstartdate,sqlenddate);
                         makesalestable(ordersList);
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(this, "The gap between dates should be one Month.", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 } else {
                     JOptionPane.showMessageDialog(this, "Select date", "Error", JOptionPane.ERROR_MESSAGE);
