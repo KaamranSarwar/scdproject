@@ -9,15 +9,25 @@ import java.awt.event.ActionEvent;
 import java.lang.management.PlatformLoggingMXBean;
 import java.util.Objects;
 
+/**
+ * this is user interface to login into the app with a valid user name and password
+ */
 public class LoginUi extends JFrame {
 
     UserDao userDao=new UserDao();
+
+    /**
+     * this is constructor that call the functions that intialize the components
+     */
     public LoginUi() {
         initComponents();
         setLocationRelativeTo(null);
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">
+    /**
+     * this is the fucntion to intialize the components and set their behaviour
+     */
     private void initComponents() {
 
         jPanel1 = new JPanel();
@@ -120,13 +130,22 @@ public class LoginUi extends JFrame {
         pack();
     }// </editor-fold>
 
+    /**
+     * this is function when login button iis pressed it will be called
+     * @param evt
+     */
     private void LoginbuttonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         login();
     }
 
-
-
+    /**
+     * Validates user credentials and logs the user into the system based on their role.
+     * Checks the entered username and password, displaying error messages for missing or incorrect inputs.
+     * If the user is validated successfully, it directs them to the corresponding system interface
+     * based on their assigned role (e.g., manager or sales assistant).
+     * Executes specific actions for each user role upon successful login, such as displaying alerts for managers.
+     */
     public void login(){
         if(userNamefield.getText().isEmpty()){
             JOptionPane.showMessageDialog(this, "Enter name!", "Error", JOptionPane.ERROR_MESSAGE);

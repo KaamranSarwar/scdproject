@@ -7,6 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDAO {
+    /**
+     * Adds a new product to the database.
+     *
+     * @param p The Product object to be added
+     * @throws RuntimeException if there's an issue executing the SQL query
+     */
     public static void addProduct(Product p )
     {
         Connection connection = DBConnector.getConnection();
@@ -29,6 +35,12 @@ public class ProductDAO {
         }
 
     }
+    /**
+     * Retrieves products with a low quantity (less than or equal to 50) from the database.
+     *
+     * @return A list of Product objects with low quantities
+     * @throws RuntimeException if there's an issue executing the SQL query
+     */
     public static List<Product> getLowQuantityProducts() {
         List<Product> products = new ArrayList<>();
         Connection connection = DBConnector.getConnection();
@@ -55,7 +67,12 @@ public class ProductDAO {
         }
         return products;
     }
-
+    /**
+     * Deletes a product from the database based on the given ID.
+     *
+     * @param id The ID of the product to be deleted
+     * @throws RuntimeException if there's an issue executing the SQL query
+     */
     public static void deleteProduct(int id)
     {
         Connection connection = DBConnector.getConnection();
@@ -69,6 +86,11 @@ public class ProductDAO {
             throw new RuntimeException(e);
         }
     }
+    /**
+     * Deletes products with zero total quantity from the database.
+     *
+     * @throws RuntimeException if there's an issue executing the SQL query
+     */
     public static void deleteSoldProducts()
     {
         Connection connection = DBConnector.getConnection();
@@ -82,6 +104,12 @@ public class ProductDAO {
             throw new RuntimeException(e);
         }
     }
+    /**
+     * Updates product details in the database.
+     *
+     * @param p The Product object with updated details
+     * @throws RuntimeException if there's an issue executing the SQL query
+     */
     public static void updateProduct(Product p)
     {
         Connection connection = DBConnector.getConnection();
@@ -103,6 +131,14 @@ public class ProductDAO {
         }
 
     }
+    /**
+     * Updates product quantity details in the database.
+     *
+     * @param totalPacks  The updated total packs
+     * @param total       The updated total quantity
+     * @param pid         The ID of the product to be updated
+     * @throws RuntimeException if there's an issue executing the SQL query
+     */
     public static void updateProductQuantity(int totalPacks,int total,int pid)
     {
         Connection connection = DBConnector.getConnection();
@@ -119,6 +155,13 @@ public class ProductDAO {
         }
 
     }
+    /**
+     * Checks if a product ID exists in the database.
+     *
+     * @param cid The ID of the product to check
+     * @return {@code true} if the ID exists, {@code false} otherwise
+     * @throws RuntimeException if there's an issue executing the SQL query
+     */
     public static boolean checkID(int cid)
     {
         Connection connection = DBConnector.getConnection();
@@ -137,6 +180,12 @@ public class ProductDAO {
         }
         return false;
     }
+    /**
+     * Retrieves all products from the database.
+     *
+     * @return A list containing all Product objects retrieved from the database
+     * @throws RuntimeException if there's an issue executing the SQL query
+     */
     public static List<Product> getAllProducts()
     {
         List<Product> products = new ArrayList<>();
@@ -165,6 +214,13 @@ public class ProductDAO {
         }
         return products;
     }
+    /**
+     * Retrieves products by name from the database.
+     *
+     * @param productName The name of the product or a partial name to search for
+     * @return A list containing Product objects with names similar to the provided name
+     * @throws RuntimeException if there's an issue executing the SQL query
+     */
     public static List<Product> getProductsByName(String productName) {
         List<Product> products = new ArrayList<>();
         Connection connection = DBConnector.getConnection();
@@ -192,6 +248,13 @@ public class ProductDAO {
         }
         return products;
     }
+    /**
+     * Retrieves products from a specific category and its subcategories.
+     *
+     * @param categoryName The name or part of the name of the category
+     * @return A list of products belonging to the specified category and its subcategories
+     * @throws RuntimeException if there's an issue executing the SQL query
+     */
     public static List<Product> getProductsByCategoryAndSubcategories(String categoryName) {
         List<Product> products = new ArrayList<>();
         Connection connection = DBConnector.getConnection();
@@ -226,6 +289,13 @@ public class ProductDAO {
         }
         return products;
     }
+    /**
+     * Retrieves low stock products from a specific category and its subcategories.
+     *
+     * @param categoryName The name or part of the name of the category
+     * @return A list of low stock products from the specified category and its subcategories
+     * @throws RuntimeException if there's an issue executing the SQL query
+     */
     public static List<Product> getLowStockProductsByCategory(String categoryName) {
         List<Product> products = new ArrayList<>();
         Connection connection = DBConnector.getConnection();
@@ -261,7 +331,10 @@ public class ProductDAO {
         }
         return products;
     }
-
+    /**
+     * Moves expired products from the product table to the expired_products table in the database.
+     * Deletes the expired products from the product table.
+     */
     public static void moveExpiredProducts() {
             try (Connection connection = DBConnector.getConnection()) {
                 String selectExpiredProductsQuery = "SELECT * FROM pos.product WHERE expDate <= CURDATE()";
@@ -290,7 +363,21 @@ public class ProductDAO {
             }
         }
 
-        // Method to insert expired product into expired_products table
+    /**
+     * Inserts an expired product into the expired_products table.
+     *
+     * @param connection    The database connection
+     * @param productId     The ID of the expired product
+     * @param productName   The name of the expired product
+     * @param price         The price of the expired product
+     * @param QinP          Quantity per packet of the expired product
+     * @param tP            Total packets of the expired product
+     * @param totalQuantity Total quantity of the expired product
+     * @param expiredDate   The date when the product expired
+     * @param description   Description of the expired product
+     * @param catname       The category name of the expired product
+     * @throws SQLException if there's an issue executing the SQL query
+     */
         private static void insertIntoExpiredProducts(Connection connection, int productId, String productName,
                                                       double price, int QinP, int tP, int totalQuantity,
                                                       Date expiredDate, String description,String catname) throws SQLException {
@@ -308,8 +395,13 @@ public class ProductDAO {
                 insertStatement.executeUpdate();
             }
         }
-
-        // Method to delete expired product from product table
+    /**
+     * Deletes an expired product from the product table.
+     *
+     * @param connection The database connection
+     * @param productId  The ID of the expired product to be deleted
+     * @throws SQLException if there's an issue executing the SQL query
+     */
         private static void deleteExpiredProduct(Connection connection, int productId) throws SQLException {
             String deleteQuery = "DELETE FROM pos.product WHERE id = ?";
             try (PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery)) {
@@ -317,7 +409,11 @@ public class ProductDAO {
                 deleteStatement.executeUpdate();
             }
         }
-
+    /**
+     * Retrieves all expired products from the 'expired_products' table.
+     *
+     * @return A list of all expired products
+     */
     public static List<Product> getAllExpiredProducts() {
         List<Product> expiredProducts = new ArrayList<>();
         try (Connection connection = DBConnector.getConnection()) {
@@ -345,6 +441,12 @@ public class ProductDAO {
         }
         return expiredProducts;
     }
+    /**
+     * Retrieves products that are near their expiry date within the next 15 days.
+     *
+     * @return A list of products near their expiry date
+     * @throws RuntimeException if there's an issue executing the SQL query
+     */
     public static List<Product> getProductsNearExpiry() {
         List<Product> nearExpiryProducts = new ArrayList<>();
         try (Connection connection = DBConnector.getConnection()) {
@@ -371,6 +473,13 @@ public class ProductDAO {
         }
         return nearExpiryProducts;
     }
+    /**
+     * Retrieves products from a specific category and its subcategories that are near expiry within the next 15 days.
+     *
+     * @param categoryName The name or part of the name of the category
+     * @return A list of products near expiry from the specified category and its subcategories
+     * @throws RuntimeException if there's an issue executing the SQL query
+     */
     public static List<Product> getProductsByCategoryNearToExpiry(String categoryName) {
         List<Product> products = new ArrayList<>();
         Connection connection = DBConnector.getConnection();
@@ -406,7 +515,13 @@ public class ProductDAO {
         }
         return products;
     }
-
+    /**
+     * Retrieves products that were deleted based on the provided category name and its subcategories.
+     *
+     * @param categoryName The name of the category
+     * @return A list of deleted products based on the specified category and its subcategories
+     * @throws RuntimeException if there's an issue executing the SQL query
+     */
     public static List<Product> getDeletedProductsByCategory(String categoryName) {
         List<Product> products = new ArrayList<>();
         try (Connection connection = DBConnector.getConnection()) {
@@ -452,7 +567,14 @@ public class ProductDAO {
         }
         return products;
     }
-
+    /**
+     * Retrieves the category IDs for the provided category name and its subcategories.
+     *
+     * @param connection   The database connection
+     * @param categoryName The name of the category
+     * @return A list of category IDs for the specified category and its subcategories
+     * @throws SQLException if there's an issue executing the SQL query
+     */
     private static List<Integer> getCategoryAndSubcategoryIds(Connection connection, String categoryName) throws SQLException {
         // Use recursive query to fetch category IDs for the provided category and its subcategories
         String categoryQuery = "WITH RECURSIVE CategoryPath AS (" +
@@ -473,7 +595,9 @@ public class ProductDAO {
         }
         return categoryIds;
     }
-
+    /**
+     * Deletes all records from the 'expired_products' table.
+     */
     public static void deleteAllFromExpired() {
         try (Connection connection = DBConnector.getConnection()) {
             String deleteQuery = "DELETE FROM expired_products";

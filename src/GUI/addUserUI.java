@@ -76,6 +76,7 @@ public class addUserUI extends JFrame {
 
         jLabel4.setText("Password");
 
+
         UserNamefield.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 UserNamefieldActionPerformed(evt);
@@ -83,6 +84,9 @@ public class addUserUI extends JFrame {
         });
 
         ADDbutton.setText("ADD");
+        /**
+         * this is button action listner that when clicked add data to the db
+         */
         ADDbutton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 ADDbuttonActionPerformed(evt);
@@ -113,13 +117,17 @@ public class addUserUI extends JFrame {
         Deletebutton.setText("Delete");
 
         updatebutton.setText("Update");
-
+/**
+ * this is button action listner that when clicked update data to the db
+ */
         updatebutton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 updatebuttonActionPerformed(evt);
             }
         });
-
+/**
+ * this button delete data from db
+ */
         Deletebutton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -272,6 +280,9 @@ public class addUserUI extends JFrame {
            frame.setSize(400,300);
            frame.setLocationRelativeTo(null);
            frame.setResizable(false);
+           /**
+            * this is to update the record of the user in the db
+            */
            Updatebtn.addActionListener(new ActionListener() {
                @Override
                public void actionPerformed(ActionEvent e) {
@@ -317,6 +328,10 @@ public class addUserUI extends JFrame {
         // TODO add your handling code here:
     }
 
+    /**
+     * add button to add user into the db
+     * @param evt
+     */
     private void ADDbuttonActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
         if(Nametxtfield.getText().isEmpty()){
@@ -348,16 +363,25 @@ public class addUserUI extends JFrame {
         }
 
     }
-
     private void UserNamefieldActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
     }
+
+    /**
+     * fucntion for going back to the homepage when button presses
+     * @param evt
+     */
 
     private void BackbuttonActionPerformed(ActionEvent evt) {
         // TODO add your handling code here:
         new managerhome(user).setVisible(true);
         this.dispose();
     }
+
+    /**
+     * functiom for the delete the user from the db
+     * @param e
+     */
     private void deletebuttonActionperform(ActionEvent e) {
         int selectedRow = Userstable.getSelectedRow();
         if (selectedRow >= 0) {
@@ -392,6 +416,9 @@ public class addUserUI extends JFrame {
         }
     }
 
+    /**
+     * this is the function to add data from db to the table
+     */
     public void updateTableWithUserData() {
         List<User> userList = userDao.getAllUsers();
 
